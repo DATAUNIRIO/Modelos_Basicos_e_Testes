@@ -1,0 +1,37 @@
+---
+title: "Pressupostos dos testes estatístico"
+author: "Steven Dutt Ross"
+date: "01/09/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Pressupostos dos testes estatístico (suposições ou premissas)
+
+Muitos dos procedimentos estatísticos, incluindo correlação, regressão, teste t e análise de variância, assumem certa característica sobre os dados. Geralmente eles assumem que:
+
+    os dados são normalmente distribuídos
+    e as variações dos grupos a serem comparados são homogêneas (iguais).
+
+Essas premissas devem ser levadas a sério para extrair interpretações e conclusões confiáveis da pesquisa.
+
+Esses testes - correlação, teste t e ANOVA - são chamados de testes paramétricos, porque sua validade depende da distribuição dos dados.
+
+Antes de usar o teste paramétrico, devemos executar alguns testes preliminares para garantir que as premissas do teste sejam atendidas. Nas situações em que as premissas são violadas, recomenda-se testes não paramatricos.
+
+# Como avaliar a normalidade dos dados?
+
+Com tamanhos de amostra grandes o suficiente (n> 30), a violação da suposição de normalidade não deve causar grandes problemas (teorema do limite central). Isso implica que podemos ignorar a distribuição dos dados e usar testes paramétricos.
+
+No entanto, para ser consistente, podemos usar o teste de significância de Shapiro-Wilk comparando a distribuição da amostra com a normal, a fim de verificar se os dados mostram ou não um desvio grave da normalidade.
+
+# Como avaliar a igualdade de variações?
+
+O teste t de Student padrão (comparando duas amostras independentes) e o teste ANOVA (comparando várias amostras) supõem também que as amostras a serem comparadas têm variações iguais.
+
+Se as amostras, comparadas, seguem a distribuição normal, é possível usar:
+
+Teste de Bartlett ou Teste de Levene para comparar as variações de várias amostras.

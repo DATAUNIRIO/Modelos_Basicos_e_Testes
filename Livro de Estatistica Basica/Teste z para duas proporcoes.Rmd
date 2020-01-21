@@ -1,0 +1,192 @@
+---
+title: "Como fazer teste para duas proporções no R"
+author: "Steven Dutt Ross"
+date: "01/09/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+options(scipen = 999)
+knitr::opts_chunk$set(echo = TRUE)
+knitr::knit_hooks$set(
+   error = function(x, options) {
+     paste('\n\n<div class="alert alert-danger">',
+           gsub('##', '\n', gsub('^##\ Error', '**Error**', x)),
+           '</div>', sep = '\n')
+   },
+   warning = function(x, options) {
+     paste('\n\n<div class="alert alert-warning">',
+           gsub('##', '\n', gsub('^##\ Warning:', '**Warning**', x)),
+           '</div>', sep = '\n')
+   },
+   message = function(x, options) {
+     paste('\n\n<div class="alert alert-info">',
+           gsub('##', '\n', x),
+           '</div>', sep = '\n')
+   }
+)
+```
+
+## Teste z para duas proporções
+
+O teste z para duas proporções é usado para comparar duas proporções observadas. Este artigo descreve o básico do teste z de duas proporções e fornece exemplos práticos usando o software R.
+
+Por exemplo, temos dois grupos de indivíduos:
+
+     Grupo A, que é de esquerda: n = 500
+     Grupo B, que é de direita: n = 500
+
+O número de pessoas a favor do Bolsa Família é o seguinte:
+
+     Grupo A de esquerda: n = 500, 490 a favor do Bolsa Família, pA = 490/500 = 98
+     Grupo B, de direita: n = 500, 400 a favor do Bolsa Família, pB = 400/500 = 80
+
+Nesta configuração:
+
+     A proporção total de pessoas a favor do Bolsa Família é 
+     
+$$ p = \frac{(490 + 400)}{500 + 500} = 0,89$$
+
+A proporção geral de pessoas contra ao bolsa familia é q = 1 − p = 0,11
+
+> Queremos saber se as proporções de pessoas a favor do Bolsa Família são iguais nos dois grupos de indivíduos.
+
+# Questões de pesquisa e hipóteses estatísticas
+
+A pergunta típica de pesquisa são:
+
+se a proporção observada de pessoas a favor do Bolsa Família no grupo A (pA) é igual à proporção observada de pessoas a favor do Bolsa Família no grupo (pB)?
+
+Na estatística, podemos definir as hipóteses nula e alternativas como se segue:
+
+$$H0: pA = pB$$
+$$H1: pA \neq pB$$
+
+### Fórmula da estatística de teste
+#### Caso de grandes amostras
+
+A estatística do teste (também conhecida como teste z) pode ser calculada da seguinte forma:
+
+$$ z = \frac{p_a - p_b}{\sqrt{pq/n_a+pq/n_b}}$$
+
+Onde,
+pA é a proporção observada no grupo A com tamanho nA
+pB é a proporção observada no grupo B com tamanho nB
+p são as proporções gerais
+
+
+```{r oneliners, echo=FALSE}
+message('se | z | <1,96, então a diferença não é significativa em 5% \n
+se | z | ≥1,96, então a diferença é significativa em 5%')
+```
+
+O nível de significância (p-valor) correspondente à estatística-z pode ser lida na tabela da normal padronizada.
+
+Lembrando que:
+
+```{r oneliners2, echo=FALSE}
+message('se o p-valor > 0,05, então a diferença não é significativa em 5% \n
+se o p-valor <= 0,05, então a diferença é significativa em 5%')
+```
+
+
+```{r oneliners3, echo=FALSE}
+warning('Observe que a fórmula da estatística z é válida apenas quando o tamanho da amostra (n) é grande o suficiente. nAp, nAq, nBp e nBq devem ser maiores que 5.')
+
+```
+
+## Caso de pequenas amostras
+
+O teste de **probabilidade exata de Fisher** é uma excelente técnica não-paramétrica para comparar proporções, quando as **duas amostras independentes são pequenas**.
+
+## Calcular o teste z de duas proporções no R
+
+### Função no R: prop.test()
+
+A função do R prop.test() podem ser usadas da seguinte maneira:
+
+```{r, eval=FALSE}
+prop.test(x, n, p = NULL, alternative = "two.sided",
+          correct = TRUE)
+```
+
+Onde: 
+x: contagens de sucessos
+n: ensaios de contagem
+alternative: um texto que indica como constuir a hipótese alternativa
+correct: um valor lógico que indica se a correção de continuidade de Yates deve ser aplicada. 
+
+```{r oneliners4, echo=FALSE}
+warning('Observe que, por padrão, a função prop.test() usou a correção de continuidade de Yates. Se você não deseja a correção, use o argumento adicional correct = FALSE na função prop.test().(Esta opção deve ser definida como FALSE para tornar o teste matematicamente equivalente ao teste z não corrigido de uma proporção.)')
+
+```
+
+Sugiro ler esses dois artigos para decidir se deve utilizar a correção:
+1. W. J. Conover (1974) Some Reasons for Not Using the Yates Continuity Correction on 2×2 Contingency Tables, Journal of the American Statistical Association, 69:346, 374-376, DOI: 10.1080/01621459.1974.10482957 
+2.Newcombe, R. G. (1998), Two‐sided confidence intervals for the single proportion: comparison of seven methods. Statist. Med., 17: 857-872. doi:10.1002/(SICI)1097-0258(19980430)17:8<857::AID-SIM777>3.0.CO;2-E
+
+## Como xalcular o teste z para duas proporções
+
+Queremos saber se as proporções de pessoas a favor do Bolsa Família são iguais nos dois grupos de indivíduos.
+
+```{r}
+resultado <- prop.test(x = c(490, 400), n = c(500, 500))
+# Mostrando o resultado
+resultado
+```
+
+## Interpretação do resultado
+
+```{r oneliners5, echo=FALSE}
+
+message('O p-valor do teste é 0,00000000000000022, que é menor que o nível de significância alfa = 0,05. Podemos concluir que a proporção  de pessoas a favor do Bolsa Família é significativamente diferente nos dois grupos.')
+
+```
+
+
+## Um exemplo com base de dados
+
+Queremos saber se as proporções de pessoas que usam o programa de alimentação popular (p.a.p) são iguais nas três localidades.
+
+```{r}
+# Leitura de dados
+Fam<- read.csv2('https://raw.githubusercontent.com/DATAUNIRIO/Base_de_dados/master/Fam%C3%ADlias.csv',header = TRUE)
+resultado<-prop.test(table(Fam$local, Fam$p.a.p))
+# Mostrando o resultado
+resultado
+```
+
+
+
+```{r}
+Comparing Proportions
+To compare proportions using a normal approximation use prop.test()
+To perform an exact binomial test use binom.test()
+The function power.prop.test() will compute the power for a
+two-sample test for proportions or determine the parameters needed to
+obtain the desired power
+# One-sample test, 17 successes out of 30 trials
+prop.test(x=17, n=30) # Ho: p.hat=.5 vs Ha: p.hat!=.5 (default)
+prop.test(x=17, n=30, p=.25) # Ho: p.hat=.25 vs Ha: p.hat!=.25
+# Two-sample test, Ho: p1=p2 vs Ha: p1!=p2 (default)
+
+prop.test(x=c(14,19), n=c(20,30))
+# Can also use a matrix to specify the successes and failures
+obs <- matrix(c(14,6,19,11), ncol=2, byrow=TRUE,
+              dimnames=list(c("Type 1", "Type 2"), c("Success", "Failure")))
+# Ho: p1=p2 vs Ha: p1>p2
+# Do not use the continuity correction, default does use the correction
+pt <- prop.test(obs, alternative="greater", correct=FALSE)
+names(pt)
+pt$conf.int
+
+# Two-sample test, Ho: p1=p2 vs Ha: p1!=p2 (default)
+pt <- prop.test(obs, correct=TRUE)
+names(pt)
+pt$conf.int
+pt$p.value
+
+
+binom.test(9,10,p=0.5)
+```
+

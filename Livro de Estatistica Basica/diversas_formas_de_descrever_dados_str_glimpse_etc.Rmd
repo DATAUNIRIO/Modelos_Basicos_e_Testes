@@ -1,0 +1,98 @@
+---
+title: "Diversas formas de examinar os seus dados"
+author: "Prof. Steven Dutt-Ross"
+categories: ["R"]
+tags: ["R Markdown", "examine", "data"]
+output:
+  html_document:
+  theme: cerulean
+  highlight: tango
+  toc: true
+  toc_float: true
+  code_folding: hide
+---
+
+```{css, echo=FALSE}
+body {
+  color: #198c7b;
+  background-color: #f7f5de;
+  font-family: 'Satisfy', cursive;
+  font-size: 22px;
+}
+
+p::first-letter {
+  font-size: 200%;
+  color: #116155;
+  line-height: 70px;
+}
+h1,h2,h3,h4,h5,h6 {
+  color: #116155;
+  font-family: 'Great Vibes', cursive;
+}
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+  background-color: #116155;
+  font-family: 'Great Vibes', cursive;
+}
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+data(mtcars)
+CARROS<-mtcars
+remove(mtcars)
+colnames(CARROS) <- c("Kmporlitro","Cilindros","Preco","HP","Amperagem_circ_eletrico",
+                      "Peso","RPM","Tipodecombustivel","TipodeMarcha","NumdeMarchas","NumdeValvulas")
+CARROS$TipodeMarcha<-as.factor(CARROS$TipodeMarcha)
+CARROS$Tipodecombustivel<-as.factor(CARROS$Tipodecombustivel)
+levels(CARROS$Tipodecombustivel) <- c('Gasolina','Álcool')
+levels(CARROS$TipodeMarcha) <- c('Automático', 'Manual')
+nomes<-c("Km por litro","Número de Cilindros","Preço",
+         "HP = Horse Power (potência do motor)","Amperagem_circ_eletrico = Amperagem média (o principal indicador da bateria)","Peso (em toneladas) do Carro",
+         "RPM = Rotações Por Minuto","Tipo de combustível (0 = Gasolina, 1 = Álcool)","Tipo de Câmbio (0 = Automático, 1 = Manual)",
+         "Número de Marchas","Número de Válvulas")
+attr(CARROS, "variable.labels") <- nomes
+
+```
+
+# Examine the data
+
+## head
+```{r}
+head(CARROS)
+```
+
+## str
+```{r}
+str(CARROS)
+```
+
+## describe
+```{r}
+library(psych)
+describe(CARROS)
+```
+
+```{r}
+library(dplyr)
+glimpse(CARROS)
+```
+
+## summary
+
+```{r}
+summary(CARROS)
+```
+
+# data
+
+```{r}
+
+library(dataMaid)
+#Visualize a variable
+#visualize(CARROS$am)
+
+#Visualize a dataset
+visualize(CARROS)
+```
+
