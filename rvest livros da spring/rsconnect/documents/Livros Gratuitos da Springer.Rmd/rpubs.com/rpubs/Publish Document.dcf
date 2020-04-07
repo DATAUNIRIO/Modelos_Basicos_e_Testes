@@ -1,0 +1,10 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/594303/68f34f754e8945b0ae3efbd9f8c69d51
+bundleId: https://api.rpubs.com/api/v1/document/594303/68f34f754e8945b0ae3efbd9f8c69d51
+url: http://rpubs.com/StevenDuttRoss/594303
+when: 1586014939.54621

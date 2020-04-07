@@ -2,12 +2,29 @@
 title: "Livros Gratuitos da Springer"
 author: "Steven Dutt Ross"
 date: "03/04/2020"
-output: html_document
+output:
+  prettydoc::html_pretty:
+    theme: tactile
+    highlight: github
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(prettydoc)
+
 ```
+
+
+```{css, echo=FALSE}
+h1,h2,h3,h4,h5,h6 {
+  color: #116155;
+  font-family: 'Roboto', sans-serif;
+  font-family: 'Anton', sans-serif;
+
+}
+
+```
+
 
 # LIVROS
 
