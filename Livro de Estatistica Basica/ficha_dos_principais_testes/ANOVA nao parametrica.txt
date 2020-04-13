@@ -1,0 +1,163 @@
+ANOVA de transformação de postos alinhados
+(Aligned Ranks Transformation ANOVA)
+
+A transformação de classificações alinhadas ANOVA (ART anova) é uma abordagem não paramétrica que permite múltiplas variáveis ​​independentes, interações e medidas repetidas.
+Meu entendimento é que, como o processo de alinhamento requer subtração de valores, a variável dependente precisa ter uma natureza quantitativa. 
+Ou seja, dados estritamente ordinais seriam tratados como numéricos no processo.
+
+O pacote ARTool torna o uso dessa abordagem em R relativamente fácil.
+Algumas notas sobre o uso do ARTool:
+• Todas as variáveis ​​independentes devem ser nominais
+• Todas as interações de variáveis ​​independentes fixas precisam ser incluídas no modelo
+• Comparações post-hoc podem ser realizadas para efeitos principais
+• Para efeitos de interações, comparações post-hoc podem ser realizadas para modelos bidirecionais. 
+• Para modelos mais complexos, é possível realizar comparações post-hoc de diferença de diferença.
+• Para modelos de efeitos fixos, o eta-quadrado pode ser calculado como um tamanho de efeito.
+
+
+### Assemble the data
+Location = c(rep("Olympia" , 6), rep("Ventura", 6),
+             rep("Northampton", 6), rep("Burlington", 6))
+Tribe  = c(rep(c("Jedi", "Sith"), 12))
+Midichlorians = c(10,  4, 12,  5, 15,  4, 15,  9, 15, 11, 18, 12,
+                   8, 13,  8, 15, 10, 17, 22, 22, 20, 22, 20, 25)
+Data = data.frame(Tribe, Location, Midichlorians)
+str(Data)
+
+
+### Aligned ranks anova
+library(ARTool)
+model = art(Midichlorians ~ Tribe + Location + Tribe:Location,
+                data = Data)
+
+### Check the success of the procedure
+model
+### Conduct ANOVA
+anova(model)
+
+
+Comparações post-hoc para efeitos principais
+Entendo que comparações post-hoc para efeitos principais podem ser tratadas pelo pacote emmeans da maneira usual, exceto que a função artlm deve ser usada para ajustar primeiro um modelo que pode ser passado para emmeans.
+Os valores estimados na saída emmeans devem ser ignorados.
+
+library(emmeans)
+model.lm = artlm(model, "Location")
+marginal = emmeans(model.lm,~ Location)
+pairs(marginal,adjust = "tukey")
+
+Comparações post-hoc para interações
+Os valores estimados na saída emmeans devem ser ignorados.
+
+model.int = artlm(model, "Tribe:Location")
+marginal = emmeans(model.int, ~ Tribe:Location)
+contrast(marginal, method="pairwise", adjust="none")
+
+Comparações post-hoc para outras interações
+Os valores estimados na saída emmeans devem ser ignorados.
+
+model.diff = artlm(model, "Tribe:Location")
+marginal = emmeans(model.diff, ~Tribe:Location)
+contrast(marginal, method="pairwise", interaction=TRUE)
+
+
+Eta quadrado parcial
+O eta-quadrado parcial pode ser calculado como uma estatística de tamanho de efeito para a transformação de classificação alinhada anova.
+
+Interpretação de eta-quadrado
+A interpretação dos tamanhos dos efeitos varia necessariamente de acordo com a disciplina e as expectativas do experimento, mas, para estudos comportamentais, às vezes são seguidas as diretrizes propostas por Cohen (1988). Eles não devem ser considerados universais.
+
+ 	
+
+                Small         Medium    Large
+eta-squared  0.01–< 0.06  0.06–< 0.14   ≥0.14
+Source: Cohen (1988).
+
+
+Exemplo de medidas repetidas
+O exemplo a seguir aborda os dados do capítulo Teste de Friedman. Os resultados são relativamente semelhantes aos resultados dos testes de Friedman e Conover e aos da regressão ordinal. Aqui, o valor de p para o teste global da ART anova é menor que o do teste de Friedman.
+
+
+Input =("
+ Instructor        Rater  Likert
+ 'Bob Belcher'        a      4
+ 'Bob Belcher'        b      5
+ 'Bob Belcher'        c      4
+ 'Bob Belcher'        d      6
+ 'Bob Belcher'        e      6
+ 'Bob Belcher'        f      6
+ 'Bob Belcher'        g     10
+ 'Bob Belcher'        h      6
+ 'Linda Belcher'      a      8
+ 'Linda Belcher'      b      6
+ 'Linda Belcher'      c      8
+ 'Linda Belcher'      d      8
+ 'Linda Belcher'      e      8
+ 'Linda Belcher'      f      7
+ 'Linda Belcher'      g     10
+ 'Linda Belcher'      h      9
+ 'Tina Belcher'       a      7
+ 'Tina Belcher'       b      5
+ 'Tina Belcher'       c      7
+ 'Tina Belcher'       d      8
+ 'Tina Belcher'       e      8
+ 'Tina Belcher'       f      9
+ 'Tina Belcher'       g     10
+ 'Tina Belcher'       h      9
+ 'Gene Belcher'       a      6
+ 'Gene Belcher'       b      4
+ 'Gene Belcher'       c      5
+ 'Gene Belcher'       d      5
+ 'Gene Belcher'       e      6
+ 'Gene Belcher'       f      6
+ 'Gene Belcher'       g      5
+ 'Gene Belcher'       h      5
+ 'Louise Belcher'     a      8
+ 'Louise Belcher'     b      7
+ 'Louise Belcher'     c      8
+ 'Louise Belcher'     d      8
+ 'Louise Belcher'     e      9
+ 'Louise Belcher'     f      9
+ 'Louise Belcher'     g      8
+ 'Louise Belcher'     h     10            
+")
+
+Data = read.table(textConnection(Input),header=TRUE)
+
+### Order levels of the factor; otherwise R will alphabetize them
+
+Data$Instructor = factor(Data$Instructor,
+                         levels=unique(Data$Instructor))
+
+### Create a new variable which is the likert scores as an ordered factor
+
+Data$Likert.f = factor(Data$Likert,
+                       ordered=TRUE)
+
+
+###  Check the data frame
+head(Data)
+str(Data)
+summary(Data)
+
+### Remove unnecessary objects
+rm(Input)
+
+### Aligned ranks anova
+library(ARTool)
+
+model = art(Likert ~ Instructor + (1|Rater),
+            data = Data)
+
+anova(model)
+### Post-hoc comparisons
+
+model.lm = artlm(model, "Instructor")
+
+library(emmeans)
+
+marginal = emmeans(model.lm,
+                   ~ Instructor)
+
+pairs(marginal,
+      adjust = "tukey")
+

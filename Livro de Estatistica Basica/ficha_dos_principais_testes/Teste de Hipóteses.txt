@@ -1,0 +1,266 @@
+# Teste de Hipóteses e p-valor
+
+## Comentários iniciais
+Tradicionalmente, em um curso de estatística há um forte foco no teste de hipóteses e na tomada de decisões com base em p-valor. 
+O teste de hipóteses é importante para determinar se há efeitos estatisticamente significativos. 
+O objetivo é determinar: 
+	a) significância estatística, 
+	b) tamanho do efeito, 
+	c) importância prática. 
+
+Esses são conceitos diferentes e serão explorados abaixo.
+ 
+## Inferência estatística
+
+A maior parte do que abordamos até agora é sobre produção de estatísticas descritivas: cálculo de médias e medianas, plotagem de dados de várias maneiras e produção de intervalos de confiança. 
+Agora vamos abordar a inferência estatística: usando testes estatísticos para tirar alguma conclusão sobre os dados. 
+
+É natural para a maioria de nós usar estatísticas resumidas ou gráficos, mas pular para inferência estatística precisa de uma pequena mudança de perspectiva. 
+A idéia de usar algum teste estatístico para responder a uma pergunta não é um conceito difícil, mas algumas das discussões a seguir ficam um pouco teóricas. 
+
+#O vídeo do Centro de Aprendizagem de Estatística explica bem a base da inferência estatística.
+
+Buscamos a compreensão de como usar as regras do valor-p, alfa e decisão para testar a hipótese nula. 
+Outra coisa importante é entender as limitações de confiar no p-valor e por que é importante avaliar o tamanho dos efeitos e ver as  considerações práticas.
+
+## Testando hipóteses
+
+####  As hipóteses nulas e alternativas
+
+Os testes estatísticos contam com o teste de uma hipótese nula, que possui uma formulação específica para cada teste. 
+A hipótese nula sempre descreve o caso em que, por exemplo, dois grupos não são diferentes ou não há correlação entre duas variáveis, etc.
+A hipótese alternativa é contrária à hipótese nula e, portanto, descreve os casos em que há uma diferença entre grupos ou uma correlação entre duas variáveis, etc.
+
+Observe que as definições de hipótese nula e hipótese alternativa não têm nada a ver com o que você deseja encontrar ou não, ou o que é interessante ou não. 
+Se você estivesse comparando a altura de homens e mulheres, a hipótese nula seria que a altura dos homens e a altura das mulheres não fossem diferentes. 
+No entanto, você pode achar surpreendente se você acha que essa hipótese é verdadeira para alguma população que você estudava. 
+Da mesma forma, se você estivesse estudando a renda de homens e mulheres, a hipótese nula seria que a renda de homens e mulheres não é diferente na população que você está estudando. 
+Nesse caso, você pode estar esperando que a hipótese nula seja verdadeira, embora não esteja surpreso se a hipótese alternativa for verdadeira. 
+De qualquer forma, a hipótese nula assumirá a forma de que não há diferença entre grupos, não há correlação entre duas variáveis ​​ou não há efeito dessa variável em nosso modelo.
+
+## Definição de p-valor
+
+A maioria dos testesse baseia no uso de uma estatística chamada p-valor para avaliar se devemos rejeitar ou deixar de rejeitar a hipótese nula.
+Dado que a hipótese nula é verdadeira, o p-valor é definido como a probabilidade de obter um resultado igual ou mais extremo do que o que foi realmente observado nos dados.
+
+ 
+## Regra de decisão
+
+O p-valor p para os dados fornecidos será determinado pela realização do teste estatístico.
+
+Este p-valor é então comparado com um valor de alpha pré-determinado. Geralmente, um valor alfa de 0,05 é usado, mas não há nada mágico nesse valor.
+
+Se o p-valor para o teste for menor que alpha, rejeitamos a hipótese nula.
+Se o p-valor for maior ou igual a alpha, falhamos em rejeitar a hipótese nula.
+
+## Exemplo de lançamento de moeda
+
+Para um exemplo de uso do p-valor para o teste de hipóteses, imagine que você tenha uma moeda que jogará 100 vezes. 
+A hipótese nula é que a moeda é justa - isto é, que é igualmente provável que a moeda caia sobre as faces cara/coroas. 50% para cada face. 
+A hipótese alternativa é que a moeda não é justa. Digamos que, para esse experimento, você jogue a moeda 100 vezes e ela dê cara 95 vezes. O p-valor nesse caso seria a probabilidade de obter 95, 96, 97, 98, 99 ou 100 caras, ou 0, 1, 2, 3, 4 ou 5 coroas, assumindo que a hipótese nula seja verdadeira (moeda honesta). 
+
+Usando a notação matemática:
+H0: p = 0,5 (hipótese nula)
+H1: p != 0,5 (hipótese alternativa)
+
+Você pode imaginar que o p-valor para esses dados será bem pequeno. Se a hipótese nula for verdadeira e a moeda for justa, haveria uma baixa probabilidade de obter 95 ou mais caras (ou 95 ou mais coroas).
+
+Usando um teste binomial, o valor-p é <0,0000001. (Na verdade, R o informa como <2.2e-16, que é uma abreviação para o número na notação científica, 2,2 x 10-16, que é 0,00000000000000022, com 15 zeros após o ponto decimal.)
+Supondo um alfa de 0,05, uma vez que o valor de p é menor que alfa, rejeitamos a hipótese nula. Ou seja, concluímos que a moeda não é justa.
+
+binom.test(95, 100, 0.5)
+
+Como o p-valor é menor que 0,05, vamos concluir que é improvável que uma moeda honesta gere 95 caras. Em outras palavras, vamos concluir que p != 0,5 (a moeda é desonesta).
+
+
+Agora imagine que você queira testar se outra moeda é honesta. Assim, vamos jogá-la 1.000 vezes. O resultado foi 540 caras. Com essas informações, decida se a moeda é honesta ou não.
+Vamos ver o gráfico.
+
+library(ggplot2)
+library(grid)
+
+x1  <- 450:550
+df <- data.frame(x = x1, y = dbinom(x1, 1000, 0.5))
+
+plot1 <- ggplot(df, aes(x = x, y = y)) + geom_bar(stat = "identity", col = "#008080", fill = "#008080") + 
+  scale_y_continuous(expand = c(0.01, 0)) + xlab("Número de Caras") + ylab("Densidade") + 
+  labs(title = "Número de Caras em 1.000 lançamentos de uma moeda") + theme_bw(16, "serif") + 
+  theme(plot.title = element_text(size = rel(1.2), vjust = 1.5))
+
+plot1
+  
+Em uma análise gráfica, parece improvável que uma moeda honesta gere 540 caras. Para ter certeza, vamos realizar o teste.
+
+Primeiro passo: formular as hipóteses.
+H0: p = 0,5 (hipótese nula)
+H1: p != 0,5 (hipótese alternativa)
+
+Segundo passo: Criar uma regra de decisão.
+Se p-valor < 0,05 rejeito H0
+
+Terceiro passo: Realizar o teste
+
+binom.test(540, 1000, 0.5)
+
+Quarto passo: Concluir a partir do resultado
+
+p-value = 0,01244
+alpha = 0,05
+
+p-value < 0,05 Rejeito H0
+
+"A moeda não é honesta"
+
+Como outro exemplo, imagine que estamos considerando duas salas de aula e contamos com alunos que realizaram um determinado exame. Queremos saber se uma sala de aula teve mais aprovações ou reprovações do que a outra. No nosso exemplo, cada sala de aula terá 10 alunos. Os dados são organizados em uma tabela de contingência.
+
+Turma  Aprovado  Reprovado
+A          8       2
+B          3       7
+
+Vamos usar o teste exato de Fisher para testar se há uma associação entre o Turma e as contagens de alunos aprovados e reprovados. 
+A hipótese nula é que não há associação entre Turma e Aprovado/Reprovado.
+
+
+Input =("
+ Turma  Aprovado  Reprovado
+ A          8       2
+ B          3       7
+")
+
+Matriz = as.matrix(read.table(textConnection(Input),
+                   header=TRUE,row.names=1))
+
+Matriz 
+
+fisher.test(Matriz)
+
+O p-valor relatado é 0,070. Se usarmos um alfa de 0,05, o p-valor será maior que alfa, portanto, falhamos em rejeitar a hipótese nula. 
+Ou seja, não tínhamos evidências suficientes para dizer que há uma associação entre a turma e Aprovado/Reprovado.
+
+Dados mais extremos nesse caso seriam se as contagens no canto superior esquerdo ou no canto inferior direito(ou ambos!) Fossem maiores.
+
+
+## Teoria e prática do uso de p-valor
+ 
+Espere, isso faz algum sentido?
+
+Lembre-se de que a definição do p-valor é:
+
+Dado que a hipótese nula é verdadeira, o p-valor é definido como a probabilidade de obter um resultado igual ou mais extremo do que o que foi realmente observado nos dados.
+
+Na prática, usamos os resultados dos testes estatísticos para chegar a conclusões sobre a hipótese nula.
+Tecnicamente, o p-valor não diz nada sobre a hipótese alternativa. Mas logicamente, se a hipótese nula é rejeitada, seu complemento lógico, a hipótese alternativa, é apoiado. Na prática, é assim que lidamos com p-valores significativos, embora essa abordagem prática gere desaprovação em alguns círculos teóricos.
+
+ 
+## Estatística é como um júri?
+
+Observe o idioma usado ao testar a hipótese nula. Com base nos resultados de nossos testes estatísticos, rejeitamos a hipótese nula ou deixamos de rejeitar a hipótese nula.
+Isso é um pouco semelhante à abordagem de um júri em um julgamento. O júri encontra evidências suficientes para declarar alguém culpado ou falha em encontrar evidências suficientes para declarar alguém culpado. 
+Ou ele é culpado ou não-culpado (guilty or not guilty).
+Não-culpado é diferente de inocente.  A sentença de absolvição do juri não é um certificado de inocência. Varias coisas podem acontecer: 1) o promotor não fez o trabalho direito, 2) a pessoa é inocente, 3) o policial contaminou a cena do crime, etc...
+Ou temos evidências sobre a culpa e ele é condenado ou alguma coisa aconteceu.
+Não condenar alguém não é necessariamente o mesmo que declarar alguém inocente. Da mesma forma, se não conseguirmos rejeitar a hipótese nula, não devemos assumir que a hipótese nula é verdadeira. Pode ser que não tenhamos amostras suficientes para obter um resultado que nos permita rejeitar a hipótese nula, ou talvez haja alguns outros fatores que afetam os resultados pelos quais não consideramos. Isso é semelhante a uma postura de "inocente até que se prove o contrário".
+Por esse motivo, NUNCA use o termo Aceitar H0. Ou rejeitamos H0 ou não rejeitamos H0. Não rejeitar H0 é diferente de aceitar H0.
+ 
+ 
+Erros na inferência
+
+Na maioria das vezes, os testes estatísticos que usamos são baseados em probabilidade, e nossos dados sempre podem ser o resultado do acaso. Considerando o exemplo de lançamento de moeda acima, se jogássemos uma moeda 100 vezes e tivéssemos 95 caras, seríamos obrigados a concluir que a moeda não era justa. Mas 95 caras poderiam acontecer com uma moeda justa estritamente por acaso.
+Podemos, portanto, cometer dois tipos de erros ao testar a hipótese nula:
+
+• Um erro do tipo I ocorre quando a hipótese nula é verdadeira, mas com base em nossa regra de decisão, rejeitamos a hipótese nula. Nesse caso, nosso resultado é um falso positivo; achamos que há um efeito (moeda injusta, associação entre variáveis, diferença entre grupos) quando realmente não existe. A probabilidade de cometer esse erro de tipo é alfa, o mesmo alfa que usamos em nossa regra de decisão.
+• Um erro do tipo II ocorre quando a hipótese nula é realmente falsa, mas com base em nossa regra de decisão, falhamos em rejeitar a hipótese nula. Nesse caso, nosso resultado é um falso negativo; falhamos em encontrar um efeito que realmente existe. A probabilidade de cometer esse tipo de erro é chamada beta.
+
+A tabela a seguir resume esses erros.
+
+#Refazer a tabela
+#Decision of Test   
+#Reality
+#texto =("                 
+#A,                            Null is true,                               Null is false
+#Reject null hypothesis      Type I error (prob. = alpha),                 Correctly reject null (prob. = 1 – beta),
+#Retain null hypothesis      Correctly retain null (prob. = 1 – alpha),    Type II error (prob. = beta)
+#")
+
+## Boas práticas para análises estatísticas
+
+#### Estatística não é como um julgamento
+Ao analisar os dados, o analista não deve abordar a tarefa como faria um advogado da acusação. Ou seja, o analista não deve procurar efeitos e testes significativos, mas deve ser como um investigador independente, usando evidência para descobrir o que é mais provável de ser verdade..
+
+#### p-hacking
+
+É importante ao abordar dados de uma abordagem exploratória, para evitar cometer p-hacking de p-valor. 
+Imagine o caso em que o pesquisador coleta muitas medidas diferentes em uma variedade de assuntos. 
+O pesquisador pode ficar tentado a simplesmente tentar diferentes testes e modelos para relacionar uma variável a outra, para todas as variáveis. 
+Ele pode continuar fazendo isso até encontrar um teste com um p-valor significativo.
+Isso seria uma forma de p-hacking de p-valor.
+Como um valor alfa de 0,05 nos permite cometer um erro falso positivo cinco por cento do tempo, encontrar um p-valor abaixo de 0,05 após vários testes sucessivos pode ser simplesmente devido ao acaso.
+Algumas formas de hackers com p-valor são mais flagrantes. Por exemplo, se alguém coletar alguns dados, execute um teste e continue a coletar dados e execute os testes iterativamente até encontrar um p-valor significativo.
+ 
+###### Consequência do po-hacking: Viés de publicação
+
+Uma questão relacionada à ciência é que existe um viés para publicar ou relatar apenas resultados significativos. 
+Isso também pode levar a uma inflação da taxa de falsos positivos. 
+Como um exemplo hipotético, imagine se atualmente há 20 estudos semelhantes sendo testados com um efeito semelhante - digamos o efeito dos suplementos de glucosamina na dor nas articulações. 
+Se 19 desses estudos não encontraram efeito e foram descartados, mas um estudo encontrou um efeito usando um alfa de 0,05 e foi publicado, isso é realmente algum suporte para que os suplementos de glucosamina diminuam a dor nas articulações?
+
+
+####  Discussão opcional: Métodos alternativos ao teste de significância da hipótese nula
+
+A controvérsia do teste de hipóteses. Particularmente nos campos da psicologia e da educação, tem havido muitas críticas à abordagem do teste de significância de hipóteses nulas. 
+Na minha leitura, as principais queixas contra o teste de hipóteses tendem a ser:
+
+• Alunos e pesquisadores realmente não entendem o significado do p-valor.
+• p-valor não incluem informações importantes, como intervalos de confiança ou estimativas de parâmetros.
+• p-valor têm propriedades que podem ser enganosas, por exemplo, que não representam o tamanho do efeito e que mudam com o tamanho da amostra.
+• Geralmente, tratamos um alfa de 0,05 como um ponto de corte mágico.
+
+<!--
+Como muitas coisas, estudantes e pesquisadores aprendem a definição de p-valor em algum momento e depois esquecem. 
+Isso não parece afetar a utilidade da abordagem.
+
+O segundo ponto tem peso apenas se os pesquisadores usarem apenas p-valor para tirar conclusões de testes estatísticos. 
+Deve-se sempre considerar o tamanho dos efeitos e considerações práticas dos efeitos, bem como apresentar achados em forma de tabela ou gráfico, incluindo intervalos de confiança ou medidas de dispersão. 
+Não há razão para que estimativas de parâmetros, estatísticas de ajuste e intervalos de confiança não possam ser incluídos quando uma abordagem do teste de hipóteses.
+
+As propriedades no terceiro ponto também não contam como críticas se alguém estiver usando p-valor corretamente. 
+Deve-se entender que é possível ter um pequeno tamanho de efeito e um pequeno p-valor, e vice-versa. exemplo: a nota de A é 0,0001 maior que a turma B e esse resultado é significativo.
+Isso não é um problema, porque p-valores e tamanhos de efeito são dois conceitos diferentes. 
+Não devemos esperar que sejam iguais. 
+O fato de os p-valores mudarem com o tamanho da amostra também não é de modo algum problemático. 
+Faz sentido que, quando há um tamanho pequeno de efeito ou muita variabilidade nos dados, precisamos de muitas amostras para concluir que o efeito provavelmente seja real.
+(Um caso em que acho que as considerações no ponto anterior são geralmente problemáticas é quando as pessoas usam testes estatísticos para verificar a normalidade ou homogeneidade dos dados ou resíduos do modelo. 
+À medida que o tamanho da amostra aumenta, esses testes são mais capazes de detectar pequenos desvios da normalidade Muitas pessoas as usam e acham que seu modelo é inadequado porque o teste pode detectar um tamanho pequeno de efeito, ou seja, um pequeno desvio da normalidade ou da homoscedasticidade).
+
+ 
+O quarto ponto é bom. Não faz muito sentido chegar a uma conclusão se nosso p-valor 0,049 e a conclusão oposta se nosso valor p for 0,051. 
+Mas acho que isso pode ser melhorado relatando os p-valores reais das análises e confiando menos nos valores p para avaliar os resultados.
+
+No geral, parece-me que essas queixas condenam práticas ruins que os autores observam: 
+não relatar o tamanho dos efeitos de alguma maneira; 
+não incluindo intervalos de confiança ou medidas de dispersão; 
+basear conclusões apenas em valores-p; 
+e não incluindo resultados importantes, como estimativas de parâmetros e estatísticas de qualidade do ajuste.
+
+ 
+#### Alternativas à abordagem do teste de hipóteses
+ 
+Estimativas e intervalos de confiança
+Uma abordagem para determinar a significância estatística é usar estimativas e intervalos de confiança. 
+As estimativas podem ser estatísticas como médias, medianas, proporções ou outras estatísticas calculadas. 
+Essa abordagem pode ser muito direta, fácil de entender pelos leitores e fácil de apresentar com clareza.
+
+ 
+Abordagem bayesiana
+O concorrente mais popular da abordagem do teste de hipóteses é a inferência bayesiana. 
+A inferência bayesiana tem a vantagem de calcular a probabilidade da hipótese, dados os dados, que é o que pensávamos que deveríamos fazer no "Espere, isso faz algum sentido?". 
+Essencialmente, é necessário conhecimento prévio sobre a distribuição dos parâmetros de interesse para uma população e adiciona as informações dos dados medidos para reavaliar algumas hipóteses relacionadas aos parâmetros de interesse. 
+Se os meus amigos bayesianos me desculparem a imprecisão desta descrição, faz sentido intuitivo. 
+Começamos com o que suspeitamos ser o caso e depois usamos novos dados para avaliar nossa hipótese.
+
+Uma desvantagem da abordagem bayesiana é que na maioria dos casos não é óbvio o que poderia ser usado para obter informações prévias legítimas. 
+Uma segunda desvantagem é que a realização de análises bayesianas não é tão direta quanto os testes apresentados.
+
+
+
+

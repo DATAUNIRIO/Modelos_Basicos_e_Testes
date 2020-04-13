@@ -1,0 +1,244 @@
+Teste da mediana de Mood para dados de duas amostras
+
+Essa é uma tradução: Fonte original: https://rcompanion.org/handbook/F_09.html
+
+O teste de Kruskal-Wallis é mais poderoso e é preferível ao Teste de mediana de Mood, pois leva em consideração a classificação dos dados, 
+enquanto o Teste de mediana de Mood apenas leva em consideração se um elemento de dados é maior ou menor que a mediana.
+
+O teste da mediana de Mood compara as medianas de dois ou mais grupos. 
+O teste pode ser realizado com a função mood.medtest no pacote RVAideMemoire ou com a função median_test no pacote coin.
+
+ 
+Dados apropriados
+
+• Dados unidirecionais com dois ou mais grupos
+
+• A variável dependente é ordinal, intervalar ou de razão
+
+• Variável independente é um fator com níveis indicando grupos
+
+• As observações entre os grupos são independentes. Ou seja, dados de medidas não pareados ou repetidos.
+
+ 
+Hipóteses
+
+• Hipótese nula: as medianas das populações das quais os grupos foram amostrados são iguais.
+• Hipótese alternativa: as medianas das populações das quais os grupos foram amostrados não são iguais.
+ 
+Interpretação
+Resultados significativos podem ser relatados como "O valor mediano do grupo A foi significativamente diferente do grupo B."
+
+Os seguintes comandos instalarão esses pacotes se eles ainda não estiverem instalados:
+
+if (! require(RVAideMemoire)) {install.packages("RVAideMemoire")}
+if (! require(coin)) {install.packages("coin")}
+
+
+Exemplo usando o pacote RVAideMemoire
+
+Este exemplo usa a notação de fórmula indicando que Likert é a variável dependente e Speaker é a variável independente. 
+A opção data = indica o quadro de dados que contém as variáveis. 
+Para o significado de outras opções, consulte ?Mood.medtest.
+
+
+
+Input =("
+ Speaker  Likert
+ Pooh      3
+ Pooh      5
+ Pooh      4
+ Pooh      4
+ Pooh      4
+ Pooh      4
+ Pooh      4
+ Pooh      4
+ Pooh      5
+ Pooh      5
+ Piglet    2
+ Piglet    4
+ Piglet    2
+ Piglet    2
+ Piglet    1
+ Piglet    2
+ Piglet    3
+ Piglet    2
+ Piglet    2
+ Piglet    3
+")
+
+Data = read.table(textConnection(Input),header=TRUE)
+
+
+###  Check the data frame
+
+library(psych)
+
+headTail(Data)
+
+str(Data)
+
+summary(Data)
+
+### Remove unnecessary objects
+rm(Input)
+
+
+#Mood’s Median Test
+library(RVAideMemoire)
+
+mood.medtest(Likert ~ Speaker,
+             data  = Data,
+             exact = FALSE)
+
+
+Mood's median test
+X-squared = 9.8, df = 1, p-value = 0.001745
+
+
+### Median test by Monte Carlo simulation
+
+library(coin)
+median_test(Likert ~ Speaker,
+            data = Data,
+            distribution = approximate(B = 10000))
+
+
+Approximative Two-Sample Brown-Mood Median Test
+Z = -3.4871, p-value = 0.0011
+
+
+
+
+Mood’s Median Test for Two-sample Data
+
+
+Advertisement
+
+Mood’s median test compares the medians of two or more groups.  The test can be conducted with the mood.medtest function in the RVAideMemoire package or with the median_test function in the coin package.
+
+ 
+Appropriate data
+
+•  One-way data with two or more groups
+
+•  Dependent variable is ordinal, interval, or ratio
+
+•  Independent variable is a factor with levels indicating groups
+
+•  Observations between groups are independent.  That is, not paired or repeated measures data
+
+ 
+Hypotheses
+
+•  Null hypothesis:  The medians of the populations from which the groups were sampled are equal.
+
+•  Alternative hypothesis (two-sided): The medians of the populations from which the groups were sampled are not equal.
+
+ 
+Interpretation
+
+Significant results can be reported as “The median value of group A was significantly different from group B.”
+
+ 
+Packages used in this chapter
+
+ 
+
+The packages used in this chapter include:
+
+•  RVAideMemoire
+
+•  coin
+
+ 
+
+ 
+
+The following commands will install these packages if they are not already installed:
+
+if(!require(RVAideMemoire)){install.packages("RVAideMemoire")}
+if(!require(coin)){install.packages("coin")}
+
+
+Example using the RVAideMemoire package
+
+ 
+
+This example uses the formula notation indicating that Likert is the dependent variable and Speaker is the independent variable.  The data= option indicates the data frame that contains the variables.  For the meaning of other options, see ?mood.medtest.
+
+ 
+
+For appropriate plots and summary statistics, see the Two-sample Mann–Whitney U Test chapter.
+
+ 
+
+Input =("
+ Speaker  Likert
+ Pooh      3
+ Pooh      5
+ Pooh      4
+ Pooh      4
+ Pooh      4
+ Pooh      4
+ Pooh      4
+ Pooh      4
+ Pooh      5
+ Pooh      5
+ Piglet    2
+ Piglet    4
+ Piglet    2
+ Piglet    2
+ Piglet    1
+ Piglet    2
+ Piglet    3
+ Piglet    2
+ Piglet    2
+ Piglet    3
+")
+
+Data = read.table(textConnection(Input),header=TRUE)
+
+
+###  Check the data frame
+
+library(psych)
+
+headTail(Data)
+
+str(Data)
+
+summary(Data)
+
+
+### Remove unnecessary objects
+
+rm(Input)
+
+
+Mood’s Median Test
+
+
+library(RVAideMemoire)
+
+mood.medtest(Likert ~ Speaker,
+             data  = Data,
+             exact = FALSE)
+
+
+Mood's median test
+
+X-squared = 9.8, df = 1, p-value = 0.001745
+
+
+### Median test by Monte Carlo simulation
+
+library(coin)
+
+median_test(Likert ~ Speaker,
+            data = Data,
+            distribution = approximate(B = 10000))
+
+
+Approximative Two-Sample Brown-Mood Median Test
+
+Z = -3.4871, p-value = 0.0011

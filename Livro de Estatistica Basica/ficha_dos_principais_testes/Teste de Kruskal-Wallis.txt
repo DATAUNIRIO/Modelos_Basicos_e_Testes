@@ -1,0 +1,119 @@
+# Teste de Kruskal-Wallis
+
+O teste de Kruskal-Wallis é um teste baseado em classificação que é semelhante ao teste de Mann-Whitney (Wilcoxon), mas pode ser aplicado a dados com mais de dois grupos.
+
+Sem outras suposições sobre a distribuição dos dados, o teste de Kruskal-Wallis não aborda hipóteses sobre as medianas dos grupos. 
+Em vez disso, o teste aborda se é provável que uma observação em um grupo seja maior que uma observação no outro. 
+
+O teste assume que as observações são independentes. Ou seja, não é apropriado para observações emparelhadas ou dados de medidas repetidas.
+É realizado com a função kruskal.test.
+
+## Testes post-hoc
+O resultado do teste de Kruskal-Wallis informa se existem diferenças entre os grupos, mas não informa quais grupos são diferentes de outros grupos. 
+Para determinar quais grupos são diferentes dos outros, é possível realizar testes post-hoc. 
+ 
+## Dados apropriados
+• A variável dependente é ordinal, intervalo ou razão
+• Variável independente é um fator com três ou mais níveis. Ou seja,  três ou mais grupos
+• As observações entre os grupos são independentes. Ou seja, dados de medidas não pareados ou repetidos.
+• Para ser um teste de medianas, as distribuições de valores para cada grupo precisam ser de forma e dispersão semelhantes (the distributions of values for each group need to be of similar shape and spread). 
+Caso contrário, o teste é tipicamente um teste de igualdade de distribuições.
+
+## Hipóteses
+• Hipótese nula: os grupos são amostrados de populações com distribuições idênticas.
+• Hipótese alternativa: os grupos são amostrados de populações com diferentes distribuições. 
+ 
+## Interpretação
+
+Resultados significativos podem ser relatados como "Houve uma diferença significativa nos valores entre os grupos".
+A análise post-hoc permite dizer "Houve uma diferença significativa nos valores entre os grupos A e B." e assim por diante.
+
+## Exemplo de teste de Kruskal–Wallis
+
+Este exemplo apresenta os dados das palestras motivacionais das famílias Stark, Targaryen e Lannister do *Game of Thrones*. 
+Esse teste responde à pergunta: "As pontuações são significativamente diferentes entre os três palestrantes?"
+
+O teste de Kruskal-Wallis é realizado com a função kruskal.test, que produz um p-valor para a hipótese. 
+Primeiro, os dados são resumidos e examinados usando gráficos de barras para cada grupo.
+ 
+Entrada =("
+ Palestrante Likert
+ Stark      3
+ Stark      5
+ Stark      4
+ Stark      4
+ Stark      4
+ Stark      4
+ Stark      4
+ Stark      4
+ Stark      5
+ Stark      5
+ Targaryen    2
+ Targaryen    4
+ Targaryen    2
+ Targaryen    2
+ Targaryen    1
+ Targaryen    2
+ Targaryen    3
+ Targaryen    2
+ Targaryen    2
+ Targaryen    3
+ Lannister    4
+ Lannister    4
+ Lannister    4
+ Lannister    4
+ Lannister    5
+ Lannister    3
+ Lannister    5
+ Lannister    4
+ Lannister    4
+ Lannister    3
+")
+
+
+Dados <- read.table(textConnection(Entrada), head = TRUE)
+
+#### Crie uma nova variável que seja a pontuação do Likert como um fator ordenado
+
+Dados$Likert.f = factor(Dados$Likert, ordered = TRUE)
+
+### Verifique os dados
+head(Dados)
+str(Dados)
+summary(Dados)
+
+### Remova objetos desnecessários
+rm(Entrada)
+
+#### Resumo dos dados tratando as pontuações do Likert como fatores
+# Numero Absoluto
+tabela <- table(Dados$Palestrante,Dados$Likert)
+tabela
+#proporcao
+prop.table(tabela,margin = 1)*100
+
+# As duas medianas
+library(psych)
+describe.by(Dados$Likert, group = Dados$Palestrante)
+
+Este exemplo usa a notação de fórmula indicando que Likert é a variável dependente e Palestrante é a variável independente. 
+A opção data = indica o quadro de dados que contém as variáveis. Para o significado de outras opções, consulte? Kruskal.test.
+
+kruskal.test(Likert ~ Palestrante, data = Dados)
+
+
+# Teste post-hoc: testes de Mann-Whitney para comparações múltiplas
+
+A função pairwise.wilcox.test produz uma tabela de p-valores comparando cada par de grupos.
+Para evitar a inflação das taxas de erro do tipo I, é possível fazer ajustes nos p-valores usando a opção p.adjust.method. O método fdr é usado. Consulte?P.adjust para obter detalhes sobre os métodos de ajuste de p-valor disponíveis.
+O código cria uma matriz de p-valores chamada PWT.
+
+### Pairwise Mann–Whitney
+
+PWT <- pairwise.wilcox.test(Dados$Likert,
+                          Dados$Palestrante,
+                          p.adjust.method="fdr")
+# Adjusts p-values for multiple comparisons;
+# See ?p.adjust for options
+
+PWT

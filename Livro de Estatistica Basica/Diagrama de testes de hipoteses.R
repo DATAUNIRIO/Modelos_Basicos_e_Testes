@@ -85,6 +85,47 @@ tukey.test <- TukeyHSD(pc)
 tukey.test
 
 
+### Finally, you might want to compare at the 75th percentile of income for the two towns.  This could be done using quantile regression.
+### quantile regression considering the 75th percentile
+
+library(quantreg)
+TwoTowns = read.table("http://rcompanion.org/documents/TwoTowns.csv",
+                      header=TRUE, sep=",")
+model.q = rq(Income ~ Town,
+             data = TwoTowns,
+             tau = 0.75)
+
+model.null = rq(Income ~ 1,
+                data = TwoTowns,
+                tau = 0.75)
+
+anova(model.q, model.null)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 library(onewaytests)
 out <- welch.test(Sepal.Length ~ Species, data = iris)
 paircomp(out)
+
+
+
+
+

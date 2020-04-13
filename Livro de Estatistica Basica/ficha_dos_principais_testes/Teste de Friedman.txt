@@ -1,0 +1,143 @@
+# Teste de Friedman
+
+O teste de Friedman determina se há diferenças entre os grupos para dados bidirecionais estruturados de uma maneira específica, nomeadamente em um design de bloco completo não replicado. 
+Nesse projeto, uma variável serve como variável de tratamento ou grupo e outra variável serve como variável de bloco. 
+É nas diferenças entre tratamentos ou grupos que estamos interessados. 
+Não estamos necessariamente interessados ​​nas diferenças entre os blocos, mas queremos que nossas estatísticas levem em conta as diferenças nos blocos. 
+No projeto de bloco completo não replicado, cada bloco tem uma e apenas uma observação de cada tratamento.
+
+O teste de Friedman é uma análise de variância não paramétrica em bloco. Ou seja, é uma versão não-paramétrica de uma ANOVA com blocos. 
+Isso significa que, embora a ANOVA tem o pressuposto de uma distribuição normal e variâncias iguais (dos resíduos), o teste de Friedman está livre dessas restrições. 
+O preço dessa liberdade paramétrica é a perda de potência (do teste de Friedman em comparação com as versões paramétricas da ANOVA).
+
+Para um exemplo dessa estrutura, veja os dados da família Belcher abaixo. 
+O avaliador é considerado a variável de bloqueio, e cada avaliador tem uma observação para cada instrutor. 
+O teste determinará se há diferenças entre os valores para o Instrutor, levando em consideração qualquer efeito consistente de um Avaliador. 
+Por exemplo, se o avaliador classifica consistentemente baixo e classificador classifica consistentemente alto, o teste de Friedman pode ser responsável estatisticamente por isso. 
+
+Em outros casos, a variável de bloco pode ser a turma em que as classificações foram feitas ou a escola em que as classificações foram realizadas. 
+Se você estava testando diferenças entre currículos ou outros tratamentos de ensino com diferentes instrutores, diferentes instrutores podem ser usados ​​como blocos.
+O teste de Friedman determina se há uma diferença sistemática nos valores da variável dependente entre os grupos.
+
+Algumas pessoas criticam o teste de Friedman por ter baixo poder na detecção de diferenças entre os grupos. 
+Foi sugerido, no entanto, que o teste de Friedman possa ser poderoso quando houver cinco ou mais grupos.
+
+ 
+### Testes post-hoc
+
+O resultado do teste de Friedman informa se existem diferenças entre os grupos, mas não informa quais grupos são diferentes de outros grupos. 
+Para determinar quais grupos são diferentes dos outros, é possível realizar testes post-hoc.
+ 
+Dados apropriados
+• Dados bidirecionais organizados em um design de bloco completo não replicado
+• A variável dependente é ordinal, intervalo ou razão
+• A variável independente de tratamento ou grupo é um fator com dois ou mais níveis. Ou seja, dois ou mais grupos.
+• Variável de bloqueio é um fator com dois ou mais níveis.
+• Os blocos são independentes um do outro e não têm interação com tratamentos.
+ 
+Hipóteses
+
+• Hipótese nula: as distribuições (sejam elas quais forem) são as mesmas para cada grupo nos blocos.
+• Hipótese alternativa (frente e verso): As distribuições para cada grupo entre os blocos são diferentes
+ 
+Interpretação
+
+Resultados significativos podem ser relatados como "Houve uma diferença significativa nos valores entre os grupos".
+
+### Outras notas e testes alternativos
+
+O teste Quade é usado para os mesmos tipos de dados e hipóteses, mas pode ser mais poderoso em alguns casos. Foi sugerido que o teste de Friedman pode ser preferível quando há um número maior de grupos (cinco ou mais), enquanto o Quade é preferível para menos grupos. 
+O teste Quade é usado para dados e hipóteses semelhantes ao teste de Friedman, nomeadamente para projetos de blocos completos não replicados.
+Alguns autores indicam que o teste Quade é apropriado para dados ordinais, enquanto outros sugerem que é apropriado apenas para dados de intervalo ou razão. 
+Está incluído nesta seção como uma alternativa ao teste de Friedman.
+
+Além disso, o teste Scheirer–Ray–Hare é um teste não paramétrico usado para um projeto fatorial. Na minha experiência, o teste de Scheirer-Ray-Hare é menos provável de encontrar o efeito de interação significativo do que uma análise de variância via mínimos quadrados. 
+Por esse motivo, eu recomendo não usar este teste, mas usar a ANOVA com uma transformação, desde que a variável dependente possa ser tratada como intervalo.
+
+Friedman test example
+
+
+Input =("
+ Instructor        Rater  Likert
+ 'Bob Belcher'        a      4
+ 'Bob Belcher'        b      5
+ 'Bob Belcher'        c      4
+ 'Bob Belcher'        d      6
+ 'Bob Belcher'        e      6
+ 'Bob Belcher'        f      6
+ 'Bob Belcher'        g     10
+ 'Bob Belcher'        h      6
+ 'Linda Belcher'      a      8
+ 'Linda Belcher'      b      6
+ 'Linda Belcher'      c      8
+ 'Linda Belcher'      d      8
+ 'Linda Belcher'      e      8
+ 'Linda Belcher'      f      7
+ 'Linda Belcher'      g     10
+ 'Linda Belcher'      h      9
+ 'Tina Belcher'       a      7
+ 'Tina Belcher'       b      5
+ 'Tina Belcher'       c      7
+ 'Tina Belcher'       d      8
+ 'Tina Belcher'       e      8
+ 'Tina Belcher'       f      9
+ 'Tina Belcher'       g     10
+ 'Tina Belcher'       h      9
+ 'Gene Belcher'       a      6
+ 'Gene Belcher'       b      4
+ 'Gene Belcher'       c      5
+ 'Gene Belcher'       d      5
+ 'Gene Belcher'       e      6
+ 'Gene Belcher'       f      6
+ 'Gene Belcher'       g      5
+ 'Gene Belcher'       h      5
+ 'Louise Belcher'     a      8
+ 'Louise Belcher'     b      7
+ 'Louise Belcher'     c      8
+ 'Louise Belcher'     d      8
+ 'Louise Belcher'     e      9
+ 'Louise Belcher'     f      9
+ 'Louise Belcher'     g      8
+ 'Louise Belcher'     h     10            
+")
+
+Data = read.table(textConnection(Input),header=TRUE)
+
+### Order levels of the factor; otherwise R will alphabetize them
+
+Data$Instructor = factor(Data$Instructor,
+                      levels=unique(Data$Instructor))
+
+### Create a new variable which is the likert scores as an ordered factor
+
+Data$Likert.f = factor(Data$Likert,
+                          ordered=TRUE)
+
+
+###  Check the data frame
+
+library(psych)
+
+headTail(Data)
+
+str(Data)
+
+summary(Data)
+
+
+### Remove unnecessary objects
+
+rm(Input)
+
+### Friedman test example
+friedman.test(Likert ~ Instructor | Rater,
+              data = Data)
+
+# Pairwise comparisons using Conover's test for a two-way balanced complete block design 
+library(PMCMR)
+PFCT = posthoc.friedman.conover.test(y      = Data$Likert,
+                                   groups = Data$Instructor,
+                                   blocks = Data$Rater,
+                                   p.adjust.method="fdr")
+# Adjusts p-values for multiple comparisons;
+PFCT

@@ -1,0 +1,168 @@
+# Teste U de Mann-Whitney (Wilcoxon) de duas amostras
+
+Essa é uma tradução: Fonte original: https://rcompanion.org/handbook/F_04.html
+
+
+## Quando usar este teste
+
+O teste U de Mann-Whitney (Wilcoxon) de duas amostras é um teste baseado em classificação que compara valores para dois grupos. 
+Um resultado significativo sugere que os valores para os dois grupos são diferentes. 
+É equivalente a um teste de soma e classificação de duas amostras de Wilcoxon.
+
+Sem outras suposições sobre a distribuição dos dados, o teste de Mann-Whitney não aborda hipóteses sobre as medianas dos grupos. 
+Em vez disso, o teste aborda se é provável que uma observação em um grupo seja maior que uma observação no outro. 
+Às vezes, isso é afirmado como teste se uma amostra possui dominância estocástica em comparação com a outra.
+
+O teste assume que as observações são independentes. Ou seja, não é apropriado para séries temporais, dados emparelhados ou dados de medidas repetidas.
+
+ 
+## Dados apropriados
+
+Dados de duas amostras. Ou seja, dados unidirecionais com apenas dois grupos.
+
+• A variável dependente é quantitativa
+
+• A variável independente é qualitativa com dois níveis. Ou seja, dois grupos.
+
+• As observações entre os grupos são independentes. Ou seja, dados de medidas não pareados ou repetidos. Evitar séries temporais e dados espaciais (geralmente possuem autocorrelação temporal e espacial)
+
+• Para ser um teste de medianas, as distribuições de valores para cada grupo precisam ser de forma e de dispersão (the distributions of values for each group need to be of similar shape and spread). 
+Caso contrário, o teste é tipicamente um teste de igualdade estocástica.
+ 
+## Hipóteses
+
+• Hipótese nula: os dois grupos são amostrados de populações com distribuições idênticas. 
+• Hipótese alternativa: os dois grupos são amostrados de populações com distribuições diferentes. 
+
+Interpretação
+
+Resultados significativos podem ser relatados como por exemplo. "Os valores do grupo A foram significativamente diferentes dos do grupo B."
+
+Outras notas e testes alternativos
+
+O teste U de Mann-Whitney (Wilcoxon) pode ser considerado equivalente ao teste de Kruskal-Wallis com apenas dois grupos.
+
+O teste de mediana de Mood compara as medianas de dois grupos. Todavia, o teste de de Mann-Whitney (Wilcoxon) é considerado mais poderoso que o teste de mediana de Mood
+
+
+Exemplo de teste de Mann-Whitney (Wilcoxon) para duas amostras
+
+Este exemplo apresenta os dados das palestras motivacionais das famílias Stark  e Targaryen do *Game of Thrones*.
+
+Responde à pergunta: "As pontuações tark são significativamente diferentes da família Targaryen?"
+
+O teste de Mann-Whitney (Wilcoxon) é realizado com a função wilcox.test, que produz um p-valor para a hipótese. 
+Primeiro, os dados são resumidos e examinados usando gráficos de barras para cada grupo.
+
+Entrada <- ("
+ Palestrante Likert
+ Stark 3
+ Stark 5
+ Stark 4
+ Stark 4
+ Stark 4
+ Stark 4
+ Stark 4
+ Stark 4
+ Stark 5
+ Stark 5
+ Targaryen 2
+ Targaryen 4
+ Targaryen 2
+ Targaryen 2
+ Targaryen 1
+ Targaryen 2
+ Targaryen 3
+ Targaryen 2
+ Targaryen 2
+ Targaryen 3
+")
+
+Dados <- read.table(textConnection(Entrada), head = TRUE)
+
+#### Crie uma nova variável que seja a pontuação do Likert como um fator ordenado
+
+Dados$Likert.f = factor(Dados$Likert, ordered = TRUE)
+
+### Verifique os dados
+head(Dados)
+str(Dados)
+summary(Dados)
+
+### Remova objetos desnecessários
+rm(Entrada)
+
+#### Resumo dos dados tratando as pontuações do Likert como fatores
+Observe que a variável que queremos contar é Likert.f. 
+As contagens para Likert.f são tabuladas cruzadamente sobre os valores de Palestrante. 
+A função prop.table converte uma tabela em proporções. A opção margem = 1 indica que as proporções são calculadas para cada linha.
+
+# Numero Absoluto
+tabela <- table(Dados$Palestrante,Dados$Likert)
+tabela
+#proporcao
+prop.table(tabela,margin = 1)*100
+
+# As duas medianas
+library(psych)
+describe.by(Dados$Likert, group = Dados$Palestrante)
+
+#### Exemplo de teste de Mann-Whitney (Wilcoxon) de duas amostras
+Este exemplo usa a notação de fórmula indicando que Likert é a variável dependente e Palestrante é a variável independente. 
+A opção data = indica o banco de dados que contém as variáveis. 
+Para o significado de outras opções, consulte? Wilcox.test.
+
+wilcox.test (Likert ~ Palestrante, data = Dados)
+
+
+Exercício
+
+Brian e Stewie Griffin querem avaliar o nível de educação dos alunos em seus cursos sobre escrita criativa para adultos. 
+Eles querem saber o nível médio de educação de cada turma e se o nível de escolaridade das turmas era diferente entre os instrutores.
+
+ 
+Eles usaram a tabela a seguir para codificar seus dados.
+
+Nível de abreviação de código
+
+1 = Menor que o ensino médio
+2 = Ensino Médio
+3 = Bacharelado
+4 = Mestrado
+5 = Doutorado
+
+A seguir estão os dados do curso.
+Instrutor        Estudante  Escolaridade
+'Brian Griffin'   a        3
+'Brian Griffin'   b        2
+'Brian Griffin'   c        3
+'Brian Griffin'   d        3
+'Brian Griffin'   e        3
+'Brian Griffin'   f        3
+'Brian Griffin'   g        4
+'Brian Griffin'   h        5
+'Brian Griffin'   i        3
+'Brian Griffin'   j        4
+'Brian Griffin'   k        3
+'Brian Griffin'   l        2
+'Stewie Griffin'  m        4
+'Stewie Griffin'  n        5
+'Stewie Griffin'  o        4
+'Stewie Griffin'  p        4
+'Stewie Griffin'  q        4
+'Stewie Griffin'  r        4
+'Stewie Griffin'  s        3
+'Stewie Griffin'  t        5
+'Stewie Griffin'  u        4
+'Stewie Griffin'  v        4
+'Stewie Griffin'  w        3
+'Stewie Griffin'  x        2
+
+
+Para cada um dos seguintes, responda à pergunta e mostre o resultado das análises que você usou para responder à pergunta.
+
+
+1. Qual foi o nível médio de educação de cada instrutor? (Certifique-se de informar o nível de escolaridade, não apenas o código numérico.)
+2. Quais foram as medianas para o nível educacional de cada instrutor?
+3. De acordo com o teste de Mann – Whitney, há diferença nas pontuações entre os instrutores?
+4. Como você apresentaria os resultados das estatísticas e do teste? Inclua sua interpretação prática.
