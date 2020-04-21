@@ -1,0 +1,70 @@
+# Teste de Bartlett
+
+O teste de Bartlett é usado para verificar se as amostras têm homogeneidade de variâncias (variâncias iguais).
+
+A avaliação do pressuposto de homogeneidade de variâncias é exigida pela maioria dos procedimentos estatísticos.
+Muitos testes estatísticos assumem que as variâncias são iguais entre grupos. O teste de Bartlett pode ser usado para verificar essa pressuposto.
+
+O teste assume que as observações são independentes. 
+É realizado com a função bartlett.test.
+
+## Dados apropriados
+• A variável dependente é quantitativa.
+• A variável independente é qualitativa.
+
+
+## Hipóteses
+
+• Hipótese nula: σ12 = σ22 = ... = σk2 (as variâncias são iguais)
+• Hipótese alternativa:  σi2 diff σj2 para pelo menos um par (i, j). (As variâncias são desiguais para pelo menos dois grupos)
+
+
+## Interpretação
+Resultados significativos podem ser relatados como "os grupos têm variâncias desiguais" ou como
+"os dados são heterocedásticos".
+
+## Exemplo de teste de Bartlett
+
+Este exemplo apresenta os dados de uma amostra de  32 carros.  
+Esse teste responde à pergunta: "A variância da variável Km/L (quantitativa) é igual para os dois grupos de carros (gasolina/álcool)?"
+
+
+data(mtcars)
+CARROS<-mtcars
+colnames(CARROS) <- c("Kmporlitro","Cilindros","Preco","HP","Amperagem_circ_eletrico",
+                      "Peso","RPM","Tipodecombustivel","TipodeMarcha","NumdeMarchas","NumdeValvulas")
+CARROS$Tipodecombustivel<-as.factor(CARROS$Tipodecombustivel)
+levels(CARROS$Tipodecombustivel) <- c('Gasolina','Álcool')
+
+### Verifique os dados
+str(CARROS$Kmporlitro)
+str(CARROS$Tipodecombustivel)
+
+### Remova objetos desnecessários
+remove(mtcars)
+
+#### Resumo dos dados 
+library(psych)
+describeBy(CARROS$Kmporlitro,group = CARROS$Tipodecombustivel)
+
+#### Box-plot
+boxplot(CARROS$Kmporlitro~CARROS$Tipodecombustivel,horizontal = TRUE,col=c("skyblue","red"))
+
+#### Teste de Bartlett
+bartlett.test(CARROS$Kmporlitro~CARROS$Tipodecombustivel)
+
+
+
+## OBeservação
+Esse teste é equivalente ao Teste Breusch-Pagan de heterocedásticidade nos modelos lineares.
+
+
+## Limitações
+
+O teste de Bartlett é sensível a desvios da normalidade. 
+Se suas amostras são provenientes de uma distribuição que não é normal, o teste de Bartlett pode estar avaliando a não normalidade. 
+
+O teste de Levene é uma alternativa ao teste Bartlett, menos sensível a desvios da normalidade. Em outras palavras, se a distribuição não é normal, use o teste de levene.
+Exemplo do Teste de Levene
+library(car)
+leveneTest(CARROS$Preco~CARROS$Tipodecombustivel)

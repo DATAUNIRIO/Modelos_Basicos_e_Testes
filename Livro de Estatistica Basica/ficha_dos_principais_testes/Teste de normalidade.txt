@@ -1,0 +1,90 @@
+# Teste de Shapiro Wilk
+
+O teste de Shapiro Wilk é um teste para aferir a normalidade dos dados (se a variável segue uma distribuição normal). 
+A avaliação do pressuposto de normalidade é exigida pela maioria dos procedimentos estatísticos. 
+A análise estatística paramétrica é um dos melhores exemplos para mostrar a importância de avaliar a suposição de normalidade. 
+A estatística paramétrica assume uma certa distribuição dos dados, geralmente a distribuição normal. 
+Se a suposição de normalidade for violada, a interpretação, a inferência, e a conclusão a partir dos dados podem não ser confiáveis ou válidas.
+
+Recomendo o uso do Shapiro Wilk porque ele é geralmente poderoso, fácil de usar, e muitas pessoas estão familiarizadas com ele (removendo a necessidade de explicar em detalhes a abordagem se você o usar em um artigo). 
+O teste assume que as observações são independentes. 
+É realizado com a função shapiro.test.
+
+## Dados apropriados
+• A variável dependente é quantitativa.
+
+## Hipóteses
+• Hipótese nula: os dados são normalmente distribuídos (os dados seguem uma distribuição normal).
+• Hipótese alternativa: os dados não são normalmente distribuídos (os dados não seguem uma distribuição normal).
+ 
+## Interpretação
+Resultados significativos podem ser relatados como "os dados não seguem uma distribuição normal" ou como
+"a hipótese nula de que os dados são normalmente distribuídos foi rejeitada".
+
+## Exemplo de teste de Shapiro Wilk
+
+Este exemplo apresenta os dados de uma amostra de  32 carros.  
+Esse teste responde à pergunta: "A variável preço do carro segue uma distribuição normal?"
+
+O teste de Shapiro Wilk é realizado com a função shapiro.test, que produz um p-valor para a hipótese. 
+
+Primeiro, os dados são resumidos e examinados usando gráficos de barras para cada grupo.
+
+#### Crie o banco de dados
+data(mtcars)
+CARROS<-mtcars
+colnames(CARROS) <- c("Kmporlitro","Cilindros","Preco","HP","Amperagem_circ_eletrico",
+                      "Peso","RPM","Tipodecombustivel","TipodeMarcha","NumdeMarchas","NumdeValvulas")
+
+### Verifique os dados
+str(CARROS$Preco)
+
+### Remova objetos desnecessários
+remove(mtcars)
+
+#### Resumo dos dados 
+summary(CARROS$Preco)
+
+#### Histograma
+hist(CARROS$Preco, prob=TRUE, col="red") 
+lines(density(CARROS$Preco),lwd=3,col="blue")  
+
+#### Grafico QQ-Plot
+qqnorm(CARROS$Preco,xlab = "Quantis teóricos", ylab = "Quantis observados",main = "QQ-plot")
+qqline(CARROS$Preco, col = 2)
+
+#### Teste de Normalidade
+shapiro.test(CARROS$Preco)
+
+
+## Limitações
+Cumpre registrar uma limitação do teste de shapiro wilk. Se a sua base de dados tiver mais de 5.000 observações, o teste de Shapiro Wilk pode indicar que o seu banco de dados não segue uma distribuição normal mesmo quando ela o seja. No R, isso pode ser verificado com o segunte código: 
+# Is normality testing 'essentially useless'?
+#https://stats.stackexchange.com/questions/2492/is-normality-testing-essentially-useless
+
+#--------------------------------------------------------------------------------------------
+set.seed(981677672)
+# procedimento para gerar 100 testes de Shapiro Wilk em cada distribuição normal
+x <- replicate(100, { 
+  c(shapiro.test(rnorm(10)+c(1,0,2,0,1))$p.value,   #$
+    shapiro.test(rnorm(100)+c(1,0,2,0,1))$p.value,  #$
+    shapiro.test(rnorm(1000)+c(1,0,2,0,1))$p.value, #$
+    shapiro.test(rnorm(5000)+c(1,0,2,0,1))$p.value) #$
+} # rnorm gives a random draw from the normal distribution
+)
+rownames(x) <- c("n10","n100","n1000","n5000")
+rowMeans(x<0.05) # the proportion of significant deviations
+
+#--------------------------------------------------------------------------------------------
+A última linha verifica qual fração das simulações para cada o tamanho da amostra diverge significativamente da normalidade.
+Assim, em 83% dos casos, uma amostra de 5000 observações se desvia significativamente da normalidade de acordo com Shapiro-Wilk.
+No entanto, ao verificar os gráficos qq-plots, você nunca acreditaria no desvio da normalidade.
+Abaixo, você vê como exemplo os gráficos qq-plots para um conjunto de amostras aleatórias.
+
+qqnorm(x[1,]); qqline(y, col = 2)
+qqnorm(x[2,]); qqline(y, col = 2)
+qqnorm(x[3,]); qqline(y, col = 2)
+qqnorm(x[4,]); qqline(y, col = 2)
+
+#--------------------------------------------------------------------------------------------
+

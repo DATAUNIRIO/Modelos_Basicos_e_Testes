@@ -1,0 +1,54 @@
+
+# Teste-t de Welch de duas amostras (Teste t de Student com variâncias desiguais)
+
+O Teste-t de Welch compara duas médias e mostra se as diferenças entre essas médias são significativas. 
+
+O teste-t de Welch é uma adaptação do teste t de Student, que é mais confiável quando as duas amostras têm variâncias desiguais e tamanhos de amostra desiguais.
+Em outras palavras, este teste permite que você avalie se a diferença entre duas médias ocorreram por um mero por acaso ou não.
+Este teste deve ser utilizado somente após a avaliação do pressuposto de homogeneidade de variâncias (variâncias iguais). 
+
+Utiliza-se este teste quando:
+Os dados seguem a Distribuição normal;
+Temos dois grupos;
+Concluimos no teste de Bartlett que os dois grupos têm variâncias diferentes.
+
+É realizado com a função t.test.
+
+## Dados apropriados
+• A variável dependente é quantitativa.
+• A variável independente é qualitativa.
+
+## Hipóteses
+• Hipótese nula: Mua = Mub.
+• Hipótese alternativa: Mua diff Mub. 
+ 
+## Interpretação
+Resultados significativos podem ser relatados como "Houve uma diferença significativa entre as médias dos dois grupos".
+
+
+### Banco de dados
+data(mtcars)
+CARROS<-mtcars
+colnames(CARROS) <- c("Kmporlitro","Cilindros","Preco","HP","Amperagem_circ_eletrico",
+                      "Peso","RPM","Tipodecombustivel","TipodeMarcha","NumdeMarchas","NumdeValvulas")
+CARROS$Tipodecombustivel<-as.factor(CARROS$Tipodecombustivel)
+levels(CARROS$Tipodecombustivel) <- c('Gasolina','Álcool')
+
+### Verifique os dados
+str(CARROS$Kmporlitro)
+str(CARROS$Tipodecombustivel)
+
+### Remova objetos desnecessários
+remove(mtcars)
+
+#### Resumo dos dados 
+library(psych)
+describeBy(CARROS$Kmporlitro,group = CARROS$Tipodecombustivel)
+
+#### Box-plot
+boxplot(CARROS$Kmporlitro~CARROS$Tipodecombustivel,horizontal = TRUE,col=c("skyblue","red"))
+
+#### Teste t de Student com variâncias desiguais
+t.test(CARROS$Kmporlitro~CARROS$Tipodecombustivel, var.equal=FALSE)
+
+

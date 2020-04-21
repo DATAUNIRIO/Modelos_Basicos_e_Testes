@@ -1,4 +1,4 @@
-ANOVA de transformação de postos alinhados
+﻿ANOVA de transformação de postos alinhados
 (Aligned Ranks Transformation ANOVA)
 
 A transformação de classificações alinhadas ANOVA (ART anova) é uma abordagem não paramétrica que permite múltiplas variáveis ​​independentes, interações e medidas repetidas.
@@ -36,7 +36,7 @@ model
 anova(model)
 
 
-Comparações post-hoc para efeitos principais
+## Comparações post-hoc para efeitos principais
 Entendo que comparações post-hoc para efeitos principais podem ser tratadas pelo pacote emmeans da maneira usual, exceto que a função artlm deve ser usada para ajustar primeiro um modelo que pode ser passado para emmeans.
 Os valores estimados na saída emmeans devem ser ignorados.
 

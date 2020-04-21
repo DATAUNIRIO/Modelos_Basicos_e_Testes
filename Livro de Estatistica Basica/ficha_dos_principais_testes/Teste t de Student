@@ -1,0 +1,82 @@
+Análise de dados quantitativos
+
+# Teste t de Student para duas amostras
+
+O Teste t de Student compara duas médias e mostra se as diferenças entre essas médias são significativas. 
+Este teste permite que você avalie se a diferença entre duas médias ocorreram por acaso ou não.
+Este teste deve ser utilizado somente após a avaliação do pressuposto de homogeneidade de variâncias (variâncias iguais). 
+
+Utiliza-se este teste quando:
+* Os dados seguem a Distribuição normal;
+* Temos dois grupos;
+* Concluimos no teste de Bartlett que os dois grupos têm variâncias iguais.
+
+É realizado com a função t.test.
+
+## Dados apropriados
+• A variável dependente é quantitativa.
+• A variável independente é qualitativa.
+
+## Hipóteses
+• Hipótese nula: Mua = Mub.
+• Hipótese alternativa: Mua diff Mub. 
+ 
+## Interpretação
+Resultados significativos podem ser relatados como "Houve uma diferença significativa entre as médias dos dois grupos".
+
+## Teste t de Student
+
+### Banco de dados
+data(mtcars)
+CARROS<-mtcars
+colnames(CARROS) <- c("Kmporlitro","Cilindros","Preco","HP","Amperagem_circ_eletrico",
+                      "Peso","RPM","Tipodecombustivel","TipodeMarcha","NumdeMarchas","NumdeValvulas")
+CARROS$Tipodecombustivel<-as.factor(CARROS$Tipodecombustivel)
+levels(CARROS$Tipodecombustivel) <- c('Gasolina','Álcool')
+
+### Verifique os dados
+str(CARROS$Kmporlitro)
+str(CARROS$Tipodecombustivel)
+
+### Remova objetos desnecessários
+remove(mtcars)
+
+#### Resumo dos dados 
+library(psych)
+describeBy(CARROS$Kmporlitro,group = CARROS$Tipodecombustivel)
+
+#### Box-plot
+boxplot(CARROS$Kmporlitro~CARROS$Tipodecombustivel,horizontal = TRUE,col=c("skyblue","red"))
+
+#### Teste t de Student 
+t.test(CARROS$Kmporlitro~CARROS$Tipodecombustivel, var.equal=TRUE)
+
+##  Teste t pareado
+
+O  teste t pareado é utilizado com amostras dependentes(pareadas).
+Em amostras pareadas para cada observação realizamos duas mensurações.
+As medidas são tomadas em um único indivíduo em dois pontos distintos no tempo. 
+Em geral, observações pareadas correspondem a medidas tomadas antes e depois de uma intervenção.
+
+Veja o exemplo a seguir, no qual existem um grupo de pacientes que teve alguma medida realizada antes da intervenção e outra depois da intervenção. 
+Por exemplo, uma métrica de popularidade de políticos (de 0 a 100) antes e depois de uma campanha de marketing uma medida em uma comunidade antes e depois de uma política pública. 
+O importante aqui é entendermos que as duas medidas são realizadas num mesmo grupo de pessoas, antes e depois de uma intervenção.
+
+O teste t para amostras indepententes não exige que os grupos tenham o mesmo tamanho, mas observe que o teste t pareado exige que existam exatamente o mesmo número de medidas antes e depois.
+Para usar o teste t pareado, iremos simplesmente alterar o argumento paired:
+
+### Banco de dados
+antes  <- c(21, 28, 24, 23, 23, 19, 28, 20, 22, 20, 26, 26)
+depois <- c(26, 27, 23, 25, 25, 29, 30, 31, 36, 23, 32, 22)
+dados<-data.frame(antes,depois)
+
+## Grafico simples da diferenca
+Diferenca <- (dados$depois - dados$antes)
+plot(Diferenca,pch = 16,ylab="Diferença (Depois/antes)")
+abline(0,0, col="blue", lwd=2)
+
+#### Teste t pareado
+t.test(dados$antes, dados$depois, paired = TRUE)
+
+Interpretando o resultado do teste-t pareado
+O  teste é interpretado da mesma forma que o teste t para duas amostras independentes.
