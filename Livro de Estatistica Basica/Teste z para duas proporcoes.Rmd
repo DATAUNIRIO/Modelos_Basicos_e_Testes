@@ -125,7 +125,7 @@ Sugiro ler esses dois artigos para decidir se deve utilizar a correção:
 1. W. J. Conover (1974) Some Reasons for Not Using the Yates Continuity Correction on 2×2 Contingency Tables, Journal of the American Statistical Association, 69:346, 374-376, DOI: 10.1080/01621459.1974.10482957 
 2.Newcombe, R. G. (1998), Two‐sided confidence intervals for the single proportion: comparison of seven methods. Statist. Med., 17: 857-872. doi:10.1002/(SICI)1097-0258(19980430)17:8<857::AID-SIM777>3.0.CO;2-E
 
-## Como xalcular o teste z para duas proporções
+## Como calcular o teste z para duas proporções
 
 Queremos saber se as proporções de pessoas a favor do Bolsa Família são iguais nos dois grupos de indivíduos.
 

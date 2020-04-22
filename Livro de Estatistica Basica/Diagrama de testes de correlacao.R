@@ -38,7 +38,7 @@ graph LR
 
 #----------------------------------------------------------
 
-
+library(DiagrammeR)
 mermaid("
 graph TB
   A[Os pressupostos do teste Qui-Quadrado foi atendido?]
@@ -59,15 +59,3 @@ graph TB
 ")
 
 
-
-M <- as.table(rbind(c(762, 327, 468), c(484, 239, 477)))
-dimnames(M) <- list(gender = c("F", "M"),
-                    party = c("Democrat","Independent", "Republican"))
-
-library("gplots")
-balloonplot(t(M), main ="Exemplo do Agresti", xlab ="", ylab="",
-            label = FALSE, show.margins = FALSE)
-
-Xsq <- chisq.test(M)  # Prints test summary
-Xsq$observed   # observed counts (same as M)
-Xsq$expected   # expected counts under the null
