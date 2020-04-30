@@ -1,0 +1,66 @@
+Key Assumptions
+https://rpubs.com/ajdowny_student/300663
+https://www.statmethods.net/stats/rdiagnostics.html
+The four key assumptions we will consider in this vignette are:
+        Linearity of the relationship between y and its explanatory variables
+        Independence of variables where explanatory variables are not highly correlated with each other
+        Normal distribution of residuals
+        Homoscedasticity or equal variance of residuals
+
+
+#### Comparacao par-a-par
+
+
+https://rpubs.com/EstatBasica/
+https://www.ime.usp.br/~pam/scriptsR.html
+
+ 
+Paoote do R com as Bases do livro "Applied Logistic Regression"
+aplore3: Datasets from Hosmer, Lemeshow and Sturdivant, "Applied Logistic Regression" (3rd Ed., 2013)
+https://cran.r-project.org/web/packages/aplore3/index.html
+install.packages("aplore3")
+
+Pacote do R com as Bases do livro Introductory Econometrics: A Modern Approach, 6e by Jeffrey M. Wooldridge.
+https://cran.r-project.org/web/packages/wooldridge/index.html
+install.packages("wooldridge")
+
+
+#aplore3: Datasets from Hosmer, Lemeshow and Sturdivant, "Applied Logistic Regression" (3rd Ed., 2013)
+library(aplore3)
+example(burn1000)                                 
+burn13m                                 
+burneval1                               
+burneval2                               
+chdage
+glowdatasets
+glow500                        
+glowbonemed                    
+glowmiscomp                    
+glowmiswmissing                           
+glowrand                                
+icu
+lowbwt
+myopia
+example(nhanes)
+example(polypharm)
+example(scale_example)
+
+http://archive.ics.uci.edu/ml/datasets/Automobile
+http://archive.ics.uci.edu/ml/datasets/Car+Evaluation
+http://archive.ics.uci.edu/ml/datasets/University
+http://archive.ics.uci.edu/ml/datasets/Audit+Data#
+http://archive.ics.uci.edu/ml/datasets/Real+estate+valuation+data+set
+https://github.com/StatQuest/ridge_lasso_elastic_net_demo/blob/master/ridge_lass_elastic_net_demo.R
+https://www.youtube.com/watch?v=C4N3_XJJ-jU&t=67s
+https://statquest.org/video-index/
+
+install.packages("wooldridge")
+library(wooldridge)
+#https://cran.r-project.org/web/packages/wooldridge/vignettes/Introductory-Econometrics-Examples.html
+data("wage1")
+?wage1
+summary(wage1)
+
+
+
+

@@ -1,4 +1,4 @@
-
+﻿
 # Teste-t de Welch de duas amostras (Teste t de Student com variâncias desiguais)
 
 O Teste-t de Welch compara duas médias e mostra se as diferenças entre essas médias são significativas. 
@@ -50,5 +50,3 @@ boxplot(CARROS$Kmporlitro~CARROS$Tipodecombustivel,horizontal = TRUE,col=c("skyb
 
 #### Teste t de Student com variâncias desiguais
 t.test(CARROS$Kmporlitro~CARROS$Tipodecombustivel, var.equal=FALSE)
-
-
