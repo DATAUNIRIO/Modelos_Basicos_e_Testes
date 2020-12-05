@@ -37,10 +37,10 @@ exp(oddsratio(UCBAdmissions[,,4]))
 chisq.test(UCBAdmissions[,,5])
 exp(oddsratio(UCBAdmissions[,,5])
     
-    chisq.test(UCBAdmissions[,,6])
-    exp(oddsratio(UCBAdmissions[,,6]))
+chisq.test(UCBAdmissions[,,6])
+exp(oddsratio(UCBAdmissions[,,6]))
     
-    ### To visualize graphically these association explore fourfold() function in the vcd() package!
+### To visualize graphically these association explore fourfold() function in the vcd() package!
     
-    ### CMH test
-    mantelhaen.test(UCBAdmissions)
+### CMH test
+mantelhaen.test(UCBAdmissions)
