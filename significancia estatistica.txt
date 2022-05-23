@@ -1,0 +1,8 @@
+
+Culto da significância estatística – alterando a base de dados.
+O foco em encontrar resultados ‘significantes’ gera coisas bizarras:
+“Fox came to me to apologize after he admitted to the fabrication. He described how and why he started tampering with data. The first time it happened he had analyzed a dataset and the results were just shy of significance. Fox noticed that if he duplicated a couple of cases and deleted a couple of cases, he could shift the p-value to below .05. And so he did. Fox recognized that the system rewarded him, and his collaborators, not for interesting research questions, or sound methodology, but for significant results. When he showed his collaborators the findings they were happy with them—and happy with Fox.”
+
+https://rolfzwaan.blogspot.com/2017/03/duplicating-data-view-before-hindsight.html
+https://analisereal.com/
+
