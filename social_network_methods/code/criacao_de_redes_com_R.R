@@ -143,7 +143,7 @@ eigen_centrality(graph)
 
 igraph::cluster_optimal(graph)
 
-
+library(readr)
 relacoes <- read_csv('https://raw.githubusercontent.com/pablobarbera/data-science-workshop/master/sna/data/star-wars-network-edges.csv')
 pessoas <- data.frame(relacoes$source)
 pessoas2<- data.frame(relacoes$target)
@@ -151,7 +151,12 @@ names(pessoas) <- 'pessoas'
 names(pessoas2) <- 'pessoas'
 library(dplyr)
 pessoas <- pessoas %>% add_row(pessoas2)
-pessoas <- unique(pessoas)
+seres <- unique(pessoas)
+remove(pessoas,pessoas2)
+
+save(relacoes,seres,file = 'C:/Users/Hp/Documents/GitHub/Modelos_Basicos_e_Testes/social_network_methods/dados/star/star.Rdata')
+load('C:/Users/Hp/Documents/GitHub/Modelos_Basicos_e_Testes/social_network_methods/dados/star/star.Rdata')
+
 graph <- graph_from_data_frame(relacoes, directed=TRUE, vertices=pessoas)
 plot(graph)
 
