@@ -25,7 +25,15 @@ Parte 3 - O estado da arte, desafios e principais problemas que encontrei
   
   
   
-
+  social network methods
+  
+  The hub scores of the vertices are defined as the principal eigenvector of At(A), where A is the adjacency matrix of the graph
+  The authority scores of the vertices are defined as the principal eigenvector of t(A)A, where A is the adjacency matrix of the graph. 
+  smallworldness(x, B = 1000, up = 0.995, lo = 0.005)
+  indice mundo pequeno
+  sample_smallworld(dim, size, nei, p, loops = FALSE, multiple = FALSE)
+  smallworld(...)
+  
 
   http://pablobarbera.com/big-data-upf/html/02a-networks-intro-visualization.html
 
@@ -155,9 +163,10 @@ seres <- unique(pessoas)
 remove(pessoas,pessoas2)
 
 save(relacoes,seres,file = 'C:/Users/Hp/Documents/GitHub/Modelos_Basicos_e_Testes/social_network_methods/dados/star/star.Rdata')
+
 load('C:/Users/Hp/Documents/GitHub/Modelos_Basicos_e_Testes/social_network_methods/dados/star/star.Rdata')
 
-graph <- graph_from_data_frame(relacoes, directed=TRUE, vertices=pessoas)
+graph <- graph_from_data_frame(relacoes, directed=TRUE, vertices=seres)
 plot(graph)
 
 
