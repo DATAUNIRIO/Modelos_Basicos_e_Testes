@@ -1,0 +1,110 @@
+---
+title: Minicurso - Introducao à análise de redes sociais
+subtitle: com a linguagem de programação R.
+lead_author_surname: Dutt-Ross
+footer: "https://steven.metodosquantitativos.com/"
+keywords:
+  - Wordclouds
+  - Tweets
+  - webscraper
+footer_contents: "DATAUNIRIO & ECOPOL"
+output:
+  pdf_document: 
+    includes:
+      in_header: definicoes.tex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## Carga Horária: 10 Horas
+## Coordenador: João Roberto Lopes
+## Professor: Steven Dutt-Ross  
+## Semestre: 2º Ano: 2022
+  
+\fullboxbegin
+# PLANO DE ENSINO
+\fullboxend
+
+
+## Descrição, objetivo e conteúdo
+
+Compreender as interconexões entre entidades como pessoas e organizações, tornou-se a parte importante da pesquisa. Assim, neste minicurso, discutiremos como analisar de forma prática as relações sociais e como raciocinar sobre elas por meio de modelos de estrutura de rede. Nesse sentido, discutiremos sobre os modelos de grafos. Os tópicos adicionais a serem abordados incluirão influência e detecção da estrutura de grupos e comunidadea. Os alunos farão experiências em dados de rede do mundo real e serão capazes de construir uma rede a partir de dados brutos e raciocinar sobre as características de estrutura de rede subjacente e extrair insights úteis.
+
+## Objetivos
+
+O objetivo central do curso é promover a capacidade de criar scripts para análise de redes sociais utilizando a linguagem de programação R.
+
+## Programação
+
+\textbf{1. Termos e Conceitos - Dia 11/10/2022}
+1. Núcleos & ligações  
+2. Tipo de dados  
+3. Distância  
+4. Revisão de matriz (matriz quadrada)
+5. Matriz de ligações
+6. Graficos de rede
+7. Medidas de centralidade
+  7.1 closeness
+  7.2 betweenness
+  7.3 degree
+  7.4 eigenvector
+8. Grupos e comunidades
+9. Hub e Autoridade
+10. Estudos de Casos
+
+\textbf{2. Aplicação no R - Dia 18/10/2022}
+1. Introdução/revisão de R
+2. Dados (data.frame, matrizes) no R
+3. Carregando dados no R
+4. Convertendo dados em rede com o R
+5. Construindo gráficos de redes com o R
+6. Usando cores em gráficos de rede
+7. Usando tamanho em Gráficos de Rede
+
+\textbf{3. Aplicação no R (parte 2) - Dia 25/10/2022}
+1. Distância geodésica com o R
+2. Cálculo de Medidas de Centralidade
+3. Identificação de grupos/comunidades com o R
+O estado da arte, desafios e principais problemas que encontrei
+aprendendo a usar a melhor ferramenta de redes (gephi network analysis)
+
+
+
+\fullboxbegin
+## Bibliografia básica
+
+https://dshizuka.github.io/networkanalysis/
+
+BRUCE, Andrew; BRUCE, Peter. Estatística Prática para Cientistas de Dados. Alta Books, 2019.   
+
+WICKHAM, H.  and GROLEMUND, G.*R for data science: import, tidy, transform, visualize, and model data.*" O'Reilly Media, Inc.", 2016.   
+
+WICKHAM, H. ggplot2: Elegant graphics for data analysis. Springer International Publishing, 2016.   
+
+\fullboxend
+
+## Bibliografia complementar 
+AQUINO, J. A. de *R para cientistas sociais* – Ilhéus, BA: EDITUS, 2014. 157 p.
+
+KOLACZYK, E. D.; CSÁRDI, G. *Statistical analysis of network data with R*. New York, NY: Springer, 2014.
+
+HANNEMAN,R.; RIDDLE,M. *Introduction to social network methods*,  2005.  Disponível em http://faculty.ucr.edu/~hanneman/nettext/Introduction_to_Social_Network_Methods.pdf
+
+FILGUEIRA,	L. *WordCloud no R* – Estatística é com R! UFF. Disponível em http://www.estatisticacomr.uff.br/?p=322
+Publicado em julho 2, 2016. Acesso em 12/07/2022.
+
+https://igraph.org/r/
+https://dshizuka.github.io/networkanalysis/
+https://rpubs.com/ben_bellman/rtweet_tidygraph
+
+\leftboxbegin
+Para saber mais, visite os sites:  
+http://giel.uniriotec.br/ &  
+https://dataunirio.github.io/  
+
+\leftboxend
+
+
