@@ -1,4 +1,18 @@
 \usepackage{geometry}
+%\usepackage{pagecolor}
+
+% https://tex.stackexchange.com/questions/82206/background-color-gradient-for-entire-document/82237#82237
+
+\usepackage{background}
+\backgroundsetup{
+scale=1,
+angle=0,
+opacity=1,
+contents={\begin{tikzpicture}[remember picture,overlay]
+ \path [left color = yellow!15!orange,middle color = white, right color = white] (current page.south west)rectangle (current page.north east);   % Adjust the position of the logo.
+\end{tikzpicture}}
+}
+
 \geometry{a4paper,
 hmargin=20mm,vmargin=20mm,
 head=0ex,foot=3ex}
@@ -7,8 +21,8 @@ head=0ex,foot=3ex}
 
 %%% fancy boxes
 % colors
-\definecolor{color1}{HTML}{045D5D}
-\definecolor{color2}{HTML}{333333}
+\definecolor{color1}{HTML}{68904D}
+\definecolor{color2}{HTML}{faf5f5}
 %%% fancy boxes
 \usepackage{tcolorbox}
 \usepackage{wrapfig}
