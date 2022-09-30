@@ -5,9 +5,9 @@ header-includes:
    - \usepackage[default]{roboto}
    - \usepackage[T1]{fontenc}
 keywords:
-  - Wordclouds
-  - Tweets
-  - webscraper
+  - network
+  - redes
+  - rstats
 footer_contents: "DATAUNIRIO & ECOPOL"
 output:
   pdf_document: 
@@ -17,7 +17,12 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, fig.align="center", dev="cairo_pdf")
-#\pagecolor{yellow!30!orange}
+#  \pagecolor{yellow!30!orange}
+
+# https://babichmorrowc.github.io/post/changing-fonts-in-rmarkdown-pdfs/
+# - \usepackage[default]{roboto}
+# - \usepackage[default]{sourcesanspro}
+
 ```
 
 
@@ -58,7 +63,7 @@ knitr::include_graphics('logos.png')
 
 ### Descrição, objetivo e conteúdo
 
-Compreender as interconexões entre entidades como pessoas e organizações tornou-se parte importante da pesquisa em ciências sociais. Assim, neste minicurso, discutiremos como analisar de forma prática as relações sociais e como raciocinar sobre elas por meio de modelos de estrutura de rede. Nesse sentido, discutiremos os modelos de grafos. Os tópicos adicionais a serem abordados incluirão influência e detecção da estrutura de grupos e comunidade. Os(as) alunos(as) farão experiências em dados de rede do mundo real e serão capazes de construir uma rede a partir de dados brutos e avaliar as características de estrutura de rede subjacente para extrair insights úteis.
+Compreender as interconexões entre entidades como pessoas e organizações tornou-se parte importante da pesquisa em ciências sociais. Assim, neste minicurso, discutiremos como analisar de forma prática as relações sociais e como raciocinar sobre elas por meio de modelos com estrutura de rede. Nesse sentido, discutiremos as principais mensurações de centralidade. Os tópicos adicionais a serem abordados incluirão também a detecção das estruturas de grupos e de comunidades. Os(as) alunos(as) utilizarão dados do mundo real e serão capazes de construir redes a partir de registros brutos, bem como avaliar as características de estrutura de rede subjacente para extrair insights úteis.
 
 
 
@@ -84,7 +89,7 @@ O objetivo central do curso é promover a capacidade de criar códigos para aná
 
 *** 
 
-### Programação
+# Programação
 
 \textbf{1. Termos e Conceitos - Dia 11/10/2022}
 
