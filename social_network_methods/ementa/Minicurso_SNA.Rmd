@@ -45,15 +45,17 @@ knitr::include_graphics('logos.png')
 
 
 
-## Carga Horária: 10 Horas
+## Carga Horária: 09 Horas
 
 ## Coordenador: João Roberto Lopes
 
 ## Professor: Steven Dutt-Ross
 
-## Semestre: 2º 
+## Local: Laboratório 2 - CCET
 
-## Ano: 2022  
+## Dias: 11,18 e 25 de outubro
+
+## Horário: 08:30 às 11:30
 
 \fullboxbegin
 
@@ -61,31 +63,25 @@ knitr::include_graphics('logos.png')
 
 \fullboxend
 
-### Descrição, objetivo e conteúdo
+### DESCRIÇÃO DO MINICURSO
+\bigskip 
 
-Compreender as interconexões entre entidades como pessoas e organizações tornou-se parte importante da pesquisa em ciências sociais. Assim, neste minicurso, discutiremos como analisar de forma prática as relações sociais e como raciocinar sobre elas por meio de modelos com estrutura de rede. Nesse sentido, discutiremos as principais mensurações de centralidade. Os tópicos adicionais a serem abordados incluirão também a detecção das estruturas de grupos e de comunidades. Os(as) alunos(as) utilizarão dados do mundo real e serão capazes de construir redes a partir de registros brutos, bem como avaliar as características de estrutura de rede subjacente para extrair insights úteis.
-
-
-
-
-\fullboxbegin
-<!--\rightboxbegin -->
-
+Os métodos digitais trouxeram uma nova abordagem para os processos de pesquisa em Ciências Sociais. Nesse minicurso, apresentaremos um dos principais novos métodos: **Análise de Redes Sociais**. Assim, vamos analisar de forma prática as relações sociais por meio de modelos com estrutura de rede. Discutiremos as principais mensurações de centralidade, como também, a detecção das estruturas de grupos e de comunidades. Os(as) alunos(as) irão utilizar dados e informações reais e serão capazes de construir redes, a partir de registros brutos, além de avaliarem as características dessas interconexões para extrair insights úteis.   
+\rightboxbegin
 Para instalar o R, visite o site:\
 <https://www.r-project.org/>\
 Para instalar o RStudio, visite o site:\
-<https://www.rstudio.com/>
-
-<!--\rightboxend  -->
-
-\fullboxend
-
+<https://www.rstudio.com/>  
+\rightboxend
+   
+\onecolumn <!--usage of the \onecolumn keyword to get back to full text (wherever necessary) --> 
 
 
-
-### Objetivos
+# OBJETIVO
 
 O objetivo central do curso é promover a capacidade de criar códigos para análise de redes sociais utilizando a linguagem de programação R.
+
+
 
 *** 
 
@@ -97,7 +93,7 @@ O objetivo central do curso é promover a capacidade de criar códigos para aná
 2.  Distância em redes\
 3.  Revisão de matriz (matriz quadrada)\
 4.  Matriz de ligações\
-5.  Graficos de rede\
+5.  Gráficos de rede\
 6.  Medidas de centralidade\
     6.1 closeness\
     6.2 betweenness\
@@ -127,8 +123,8 @@ O objetivo central do curso é promover a capacidade de criar códigos para aná
 2.  Cálculo de Medidas de Centralidade\
 3.  Identificação de grupos/comunidades com o R\
 4.  O estado da arte\
-    4.1 desafios e principais problemas que encontrei\
-    4.2 aprendendo a usar a melhor ferramenta de redes (gephi network analysis)
+    4.1 desafios e principais problemas\
+    4.2 a ferramenta de redes (gephi network analysis)\
 
 \fullboxbegin
 
@@ -136,11 +132,13 @@ O objetivo central do curso é promover a capacidade de criar códigos para aná
 
 HANNEMAN,R.; RIDDLE,M. *Introduction to social network methods*, 2005. Disponível em <http://faculty.ucr.edu/~hanneman/nettext/Introduction_to_Social_Network_Methods.pdf>
 
+HIGGINS,S.S. E RIBEIRO,A.C.A. *Análise de redes em Ciências Sociais*. Higgins,S.S. e Ribeiro,A.C.A. – Brasília: Enap, 2018. Disponível em https://repositorio.enap.gov.br/bitstream/1/3337/1/Livro_Analise%20de%20Redes%20em%20Ci%C3%AAncias%20Sociais.pdf
+
 \fullboxend
 
 ## Bibliografia complementar
 
-1. AQUINO, J. A. de *R para cientistas sociais* -- Ilhéus, BA: EDITUS, 2014. 157 p.
+1. AQUINO, J. A. de *R para cientistas sociais* -- Ilhéus, BA: EDITUS, 2014. 157 p. Disponível em <http://www.uesc.br/editora/livrosdigitais_20140513/r_cientistas.pdf>
 
 2. BARBERA, P. *Introduction to social network analysis with R*, 2017. Disponível em <http://pablobarbera.com/big-data-upf/html/02a-networks-intro-visualization.html>
 
@@ -150,7 +148,7 @@ HANNEMAN,R.; RIDDLE,M. *Introduction to social network methods*, 2005. Disponív
 
 5. WICKHAM, H. and GROLEMUND, G.*R for data science: import, tidy, transform, visualize, and model data.*" O'Reilly Media, Inc.", 2016.
 
-## Referência - pacotes do R
+## Referência - Pacotes do R
 
 1. ALLAIRE,J; GANDRUD, C; RUSSELL, K; YETMAN, C *networkD3: D3 JavaScript Network Graphs from R*. 2017.
 
@@ -158,6 +156,7 @@ HANNEMAN,R.; RIDDLE,M. *Introduction to social network methods*, 2005. Disponív
 
 3. R CORE TEAM *R: A language and environment for statistical computing.* R Foundation for Statistical Computing, Vienna, Austria. 2022. <https://www.R-project.org/>.
 
+<!--
 \leftboxbegin
 
 Para saber mais, visite o site:
@@ -165,3 +164,4 @@ Para saber mais, visite o site:
 <https://dataunirio.github.io/>
 
 \leftboxend
+-->
