@@ -26,8 +26,8 @@ knitr::opts_chunk$set(echo = FALSE, fig.align="center", dev="cairo_pdf")
 ```
 
 
-```{r,out.width = "50%",fig.align='center'}
-knitr::include_graphics('logos.png')
+```{r,out.width = "100%",fig.align='center'}
+knitr::include_graphics('logo.png')
 ```
  
  
@@ -37,7 +37,7 @@ knitr::include_graphics('logos.png')
 
 \fullboxbegin
 
-## **MINICURSO - INTRODUCAO À ANÁLISE DE REDES SOCIAIS**
+## **MINICURSO - INTRODUÇÃO À ANÁLISE DE REDES SOCIAIS**
 
 ## **COM A LINGUAGEM DE PROGRAMAÇÃO R**
 
@@ -47,9 +47,11 @@ knitr::include_graphics('logos.png')
 
 ## Carga Horária: 09 Horas
 
-## Coordenador: João Roberto Lopes
+## Coordenador:  João Roberto Lopes (Departamento de Estudos Políticos - ECOPOL/NELUTAS - UNIRIO)
 
-## Professor: Steven Dutt-Ross
+## Professor: Steven Dutt-Ross  (Departamento de Métodos Quantitativos - DATAUNIRIO)
+
+## Monitor (voluntário):  Daniel de Luna - Ciência Política - UNIRIO
 
 ## Local: Laboratório 2 - CCET
 
@@ -68,7 +70,7 @@ knitr::include_graphics('logos.png')
 
 Os métodos digitais trouxeram uma nova abordagem para os processos de pesquisa em Ciências Sociais. Nesse minicurso, apresentaremos um dos principais novos métodos: **Análise de Redes Sociais**. Assim, vamos analisar de forma prática as relações sociais por meio de modelos com estrutura de rede. Discutiremos as principais mensurações de centralidade, como também, a detecção das estruturas de grupos e de comunidades. Os(as) alunos(as) irão utilizar dados e informações reais e serão capazes de construir redes, a partir de registros brutos, além de avaliarem as características dessas interconexões para extrair insights úteis.   
 \rightboxbegin
-Para instalar o R, visite o site:\
+Os computadores do Laboratório 2 já estão com o R & RStudio, mas se você quiser pode instalar o R neste site:\
 <https://www.r-project.org/>\
 Para instalar o RStudio, visite o site:\
 <https://www.rstudio.com/>  
