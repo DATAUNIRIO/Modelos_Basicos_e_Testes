@@ -1,5 +1,5 @@
 
-# https://kateto.net/netscix2016.html
+
 library(igraph)
 library(readxl)
 library(tidyr)
