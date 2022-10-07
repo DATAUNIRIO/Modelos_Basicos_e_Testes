@@ -3,8 +3,13 @@
   
 #  The hub scores of the vertices are defined as the principal eigenvector of At(A), where A is the adjacency matrix of the graph
 #  The authority scores of the vertices are defined as the principal eigenvector of t(A)A, where A is the adjacency matrix of the graph. 
-  
+
+# O hub score é definido como o autovetor principal de A* t(A), onde A é a matriz da rede.
+# O authority score é definido como o autovetor principal de t(A)*A, onde A é a matriz da rede.
+
 http://pablobarbera.com/big-data-upf/html/02a-networks-intro-visualization.html
+http://pablobarbera.com/big-data-upf/html/02b-networks-descriptive-analysis.html
+
 https://stats.stackexchange.com/questions/175492/how-to-test-statistically-whether-my-network-graph-is-a-small-world-network
 
 library(igraph)
